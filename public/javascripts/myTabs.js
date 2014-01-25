@@ -35,7 +35,7 @@ jQuery.fn.myTabs = function(  method, opt ){
             heightStyle: opt.heightStyle || "fill"
         });
     };
-    var reFlash = function(obj){
+    var reFresh = function(obj){
         var opts = {}
             , count = 0
             , str ;
@@ -64,9 +64,9 @@ jQuery.fn.myTabs = function(  method, opt ){
             create(this);
         });
     }
-    else if ( method == "reFlash" ){
+    else if ( method == "reFresh" ){
         $(this).each(function(){
-            reFlash(this);
+            reFresh(this);
         });
     }
 };
