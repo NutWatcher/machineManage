@@ -4,9 +4,12 @@
 
 
 var index = require('./controllers/index');
+var view = require('./controllers/view');
 
 module.exports = function (app) {
     // home page
-    app.get('/', index.index);
+    app.get('/', view.index);
+    app.get('/index', view.index);
+    app.get('/addMachine', view.addMachine);
 
 };

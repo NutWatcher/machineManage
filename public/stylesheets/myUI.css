@@ -1,0 +1,13 @@
+.lyy-light-background{
+    background :#e6e6e6 url('../images/ui-bg_glass_75_e6e6e6_1x400.png') 50% 50% repeat-x;
+}
+.lyy-dark-background{
+    background :#dadada url(../images/ui-bg_glass_75_dadada_1x400.png) 50% 50% repeat-x;
+}
+.lyy-null-background{
+    background: #ffffff url(../images/ui-bg_glass_65_ffffff_1x400.png) 50% 50% repeat-x;
+}
+
+.lyy-cursor-pointer{
+    cursor: pointer;
+}

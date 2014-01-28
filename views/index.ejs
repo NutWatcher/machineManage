@@ -1,18 +1,5 @@
-<!DOCTYPE html>
-<html>
-<head>
-    <title><%= title %></title>
+    <% include head.ejs %>
 
-    <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
-    <title>无标题文档</title>
-    <link rel='stylesheet' href='./stylesheets/reset.css'/>
-    <link rel="stylesheet" href="./stylesheets/jquery-ui.min.css">
-
-    <script src="./javascripts/jquery-1.9.1.js"></script>
-    <script src="./javascripts/ajax_file.js"></script>
-    <script src="./javascripts/jquery-ui.min.js"></script>
-    <script src="./javascripts/myTabs.js"></script>
-    <link rel='stylesheet' href='/stylesheets/style.css'/>
     <script>
         $(function () {
             $("#addNewPackage").button()
@@ -59,11 +46,9 @@
             width: 600px;
         }
     </style>
-</head>
 <body>
-<h1><%= title %></h1>
-
-<p>Welcome to <%= title %></p>
+<% include navigation.ejs %>
+<div id="machineInput" ><span>设备编号: <input></span></div>
 
 <div id="myta"></div>
 <div id="tabs">

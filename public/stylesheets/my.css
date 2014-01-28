@@ -1,5 +1,13 @@
 body {
-    padding: 3%;
+    padding: 50px;
+    font: 14px "Lucida Grande", Helvetica, Arial, sans-serif;
+}
+#navigation{
+    padding-bottom: 5px ;
+    border-bottom: lightgreen 1px solid;
+}
+#machineInput{
+    padding: 10px 0px;
 }
 .tEven {
     background-color: #ffead7;
