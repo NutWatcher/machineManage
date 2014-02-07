@@ -1,0 +1,11 @@
+{
+    "dataTable": {
+        "name": "machinemanage",
+        "creat": "create database if not exists `machinemanage` DEFAULT CHARACTER SET utf8 ;"
+    },
+    "tables": [
+        {
+            "creat": "CREATE  TABLE if not exists `machinetype` (`idmachinetype` INT NOT NULL AUTO_INCREMENT ,`typename` VARCHAR(45) NULL ,PRIMARY KEY (`idmachinetype`) ,UNIQUE INDEX `typename_UNIQUE` (`typename` ASC) );"
+        }
+    ]
+}

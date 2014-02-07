@@ -12,3 +12,6 @@ exports.index = function(req, res){
 exports.addMachine = function(req, res){
     res.render('addMachine', { title: '添加管理' });
 };
+exports.admin = function(req, res){
+    res.render('admin', { title: '超级管理' });
+};
