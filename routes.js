@@ -4,7 +4,8 @@
 
 
 var index = require('./controllers/index');
-var view = require('./controllers/view');
+var view = require('./controllers/view')
+    ,adminManage = require('./controllers/adminManage');
 
 module.exports = function (app) {
     // home page
@@ -13,6 +14,7 @@ module.exports = function (app) {
     app.get('/admin', view.admin);
     app.get('/addMachine', view.addMachine);
 
-    app.get('/initDatabase', view.admin);
+    app.get('/dropDatabase', adminManage.dropDB);
+    app.get('/createDatabase', adminManage.createDB);
 
 };

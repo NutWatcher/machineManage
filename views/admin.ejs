@@ -2,11 +2,39 @@
 <script>
     $(function(){
         $('button').button();
+        $('#dropDb').on('click', function(){
+            $.ajax({
+                url : "./dropDatabase",
+                success: function(msg){
+                    $("#pInfo").text(msg.data);
+                },
+                error :function (XMLHttpRequest, textStatus) {
+                    alert(textStatus.toString());
+                }
+            })
+        });
+        $('#createDb').on('click', function(){
+            $.ajax({
+                url : "./createDatabase",
+                success: function(msg){
+                    $("#pInfo").text(msg.data);
+                },
+                error :function (XMLHttpRequest, textStatus) {
+                    alert(textStatus.toString());
+                }
+            })
+        });
     });
 </script>
 <body>
-<button>重置数据库</button>
-<button>查看日志</button>
-<button>查看错误日志</button>
+<div>
+    <button id="dropDb">删除数据库</button>
+    <button id="createDb">重建数据库</button>
+    <button>查看日志</button>
+    <button>查看错误日志</button>
+</div>
+<div>
+    <p id="pInfo"></p>
+</div>
 </body>
 </html>
