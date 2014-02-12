@@ -43,3 +43,28 @@ table {
 #exportForm div{
     padding-top: 5px;
 }
+.addMachine_div{
+    padding-top: 15px;
+    clear: both;
+}
+.addMachine_lable{
+    width: 150px;
+    font-size: 20px;
+    float: left;
+    text-align: right;
+    padding-right: 15px;
+    padding-top: 15px;
+}
+.addmachine_data{
+    width: 300px;
+    height: 40px;
+    float: left;
+}
+.border_gray{
+    border: 1px solid #d3d3d3;
+}
+.addmachine_tabs{
+    height: 500px;
+    width: 600px;
+    z-index: 100;
+}

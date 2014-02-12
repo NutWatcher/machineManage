@@ -1,22 +1,15 @@
 /**
  * Created with JetBrains WebStorm.
  * User: yzjf
- * Date: 14-2-8
- * Time: 下午4:53
+ * Date: 14-2-12
+ * Time: 下午4:36
  * To change this template use File | Settings | File Templates.
  */
 
 var baseDb = require('./baseDao');
-var m_machine = require('../mode/M_machine');
-exports.updataMisc = function (machine, misc, cb) {
-    var strSql = "UPDATE `machinebarcode` SET `machinemsic`= " + baseDb.escape(machine.id) +
-        " WHERE `idmachinebarcode`= " + baseDb.escape(misc) + " ;";
-    baseDb.queryDb(strSql, cb);
-};
-exports.updataDepartment = function (id, departmentId) {
-    var strSql = "";
-}
-exports.getInfoByBarcode = function (barcode, logInfo, cb) {
+var m_department = require('../mode/M_department');
+
+exports.getInfoAll = function (logInfo, cb) {
     var strSql = "SELECT " +
         "a.idmachinebarcode id, " +
         "    a.machinemsic msic, "+

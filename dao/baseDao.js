@@ -19,6 +19,9 @@ var pool  = mysql.createPool({
     "user": dbConfig.config.user,
     "password": dbConfig.config.password
 });
+exports.escape = function(data){
+    return pool.escape(data) ;
+}
 var queryDbStream = function (strSqls, cb, endCb) {
     var strSql = "" ;
     for ( var i = 0 ; i < strSqls.length ; i ++ ){
@@ -55,6 +58,10 @@ var queryDbStream = function (strSqls, cb, endCb) {
     });
 };
 var queryDb = function (strSql, logInfo, cb) {
+    if (cb === undefined){
+        cb = logInfo ;
+        logInfo =  moment().format('YYYY-MM-DD HH:mm:ss.SSS' + ' ');
+    }
     log.info(logInfo+ strSql);
     pool.getConnection(function(err, connection) {
         if (err) {
@@ -118,7 +125,7 @@ exports.dropTableDb = function (logInfo, cb) {
     });
 };
 
-exports.queryDb = function (strSql,cb) {
+exports.queryDb = function (strSql, logInfo, cb) {
     queryDb(strSql,cb);
 };
 exports.queryDbStream = function (strSql,cb) {

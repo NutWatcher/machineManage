@@ -1,27 +1,139 @@
 <% include head.ejs %>
 <script>
     $(function () {
-        $('#selectButton').mySelectStyle();
-        $('#selectButton').on({
+        $('#addMachine_form button').button();
+        $('.addMachine_select').mySelectStyle();
+
+        var position = $("#selectTypeButton").position();
+        $("#tab_type_div").css({ left:position.left + 60 ,top:position.top + 12}).hide();
+        var position = $("#selectDepartmentButton").position();
+        $("#tab_department_div").css({ left:position.left + 60 ,top:position.top + 12}).hide();
+
+        $.ajax({
+            type:"GET",
+            url:"/getDepartmnet"
+        })
+        $( "#tab_department" ).tabs({
+            event: "mouseover",
+            heightStyle: "fill",
+            url : "../getTitles"
+        });
+        $( "#tab_type" ).tabs({
+            event: "mouseover",
+            heightStyle: "fill",
+            url : "../getTitles"
+        });
+
+
+        $('#selectTypeButton').on({
             'click': function (e) {
                 e.stopPropagation();
-                alert(2);
+                if ($("#tab_department_div").css('display') != 'none'){
+                    $("#tab_department_div").hide();
+                }
+                if ($("#tab_type_div").css('display') == 'none'){
+                    $("#tab_type_div").show();
+                }
+                else{
+                    $("#tab_type_div").hide();
+                }
+            }
+        });
+        $('#selectDepartmentButton').on({
+            'click': function (e) {
+                e.stopPropagation();
+                if ($("#tab_type_div").css('display') != 'none'){
+                    $("#tab_type_div").hide();
+                }
+                if ($("#tab_department_div").css('display') == 'none'){
+                    $("#tab_department_div").show();
+                }
+                else{
+                    $("#tab_department_div").hide();
+                }
             }
         });
     });
-
 </script>
+<style>
+</style>
 <body>
 <% include navigation.ejs %>
-<div style="padding: 10px 0;">
-    <span>设备类型:</span>
-
-    <div class="ui-corner-all" style="border: 1px solid #d3d3d3;width: 300px;height: 40px">
-        <span style="width: 250px;overflow:hidden;float: left;line-height: 40px;padding-left:5px;font-size: 30px">ddddxxxjhjgjghxdtttd</span>
-            <span id="selectButton" class="ui-corner-right lyy-light-background" style="padding: 12px 0;float: right; "
+<div id="addMachine_form" style="padding: 10px 0;">
+    <div class="addMachine_div">
+        <p class="addMachine_lable" >设备类型:</p>
+        <div class="ui-corner-all addmachine_data border_gray">
+            <span style="width: 250px;overflow:hidden;float: left;line-height: 40px;padding-left:5px;font-size: 30px">ddddxxxjhjgjghxdtttd</span>
+            <span id="selectTypeButton" class="ui-corner-right lyy-light-background addMachine_select" style="padding: 12px 0;float: right; "
                   title="选择设备类型">
                 <span  class="ui-icon ui-icon-triangle-1-e" style="margin: 0 12px;"></span>
             </span>
+        </div>
+    </div>
+    <div class="addMachine_div">
+        <p class="addMachine_lable" >部门:</p>
+        <div class="ui-corner-all addmachine_data border_gray">
+            <span style="width: 250px;overflow:hidden;float: left;line-height: 40px;padding-left:5px;font-size: 30px">ddddxxxjhjgjghxdtttd</span>
+            <span id="selectDepartmentButton" class="ui-corner-right lyy-light-background addMachine_select" style="padding: 12px 0;float: right; "
+                  title="选择部门">
+                <span  class="ui-icon ui-icon-triangle-1-e" style="margin: 0 12px;"></span>
+            </span>
+        </div>
+    </div>
+    <div class="addMachine_div">
+        <p class="addMachine_lable" >条码:</p>
+        <div class="ui-corner-all addmachine_data border_gray">
+            <input   style="border: 0;width: 290px;overflow:hidden;float: left;line-height: 30px;padding:5px ;font-size: 25px"></input>
+        </div>
+    </div>
+    <div class="addMachine_div">
+        <p class="addMachine_lable" ></p>
+        <div class="addmachine_data">
+            <button>增加</button>
+        </div>
     </div>
 </div>
+<div id="tab_type_div" style="position: absolute;left: 0px;top:0px">
+<div id="tab_type"  class="addmachine_tabs" >
+    <ul>
+        <li><a href="#tabs-1">Nunc tincidunt</a></li>
+        <li><a href="#tabs-2">Proin dolor</a></li>
+        <li><a href="#tabs-3">Aenean lacinia</a></li>
+    </ul>
+    <div id="tabs-1" class="tabDiv">
+        <p>Proin elit arcu, rutrum commodo, vehicula tempus, commodo a, risus. Curabitur nec arcu. Donec sollicitudin mi sit amet mauris. Nam elementum quam ullamcorper ante. Etiam aliquet massa et lorem. Mauris dapibus lacus auctor risus. Aenean tempor ullamcorper leo. Vivamus sed magna quis ligula eleifend adipiscing. Duis orci. Aliquam sodales tortor vitae ipsum. Aliquam nulla. Duis aliquam molestie erat. Ut et mauris vel pede varius sollicitudin. Sed ut dolor nec orci tincidunt interdum. Phasellus ipsum. Nunc tristique tempus lectus.</p>
+    </div>
+    <div id="tabs-2" class="tabDiv">
+        <p>Morbi tincidunt, dui sit amet facilisis feugiat, odio metus gravida ante, ut pharetra massa metus id nunc. Duis scelerisque molestie turpis. Sed fringilla, massa eget luctus malesuada, metus eros molestie lectus, ut tempus eros massa ut dolor. Aenean aliquet fringilla sem. Suspendisse sed ligula in ligula suscipit aliquam. Praesent in eros vestibulum mi adipiscing adipiscing. Morbi facilisis. Curabitur ornare consequat nunc. Aenean vel metus. Ut posuere viverra nulla. Aliquam erat volutpat. Pellentesque convallis. Maecenas feugiat, tellus pellentesque pretium posuere, felis lorem euismod felis, eu ornare leo nisi vel felis. Mauris consectetur tortor et purus.</p>
+        <p>Morbi tincidunt, dui sit amet facilisis feugiat, odio metus gravida ante, ut pharetra massa metus id nunc. Duis scelerisque molestie turpis. Sed fringilla, massa eget luctus malesuada, metus eros molestie lectus, ut tempus eros massa ut dolor. Aenean aliquet fringilla sem. Suspendisse sed ligula in ligula suscipit aliquam. Praesent in eros vestibulum mi adipiscing adipiscing. Morbi facilisis. Curabitur ornare consequat nunc. Aenean vel metus. Ut posuere viverra nulla. Aliquam erat volutpat. Pellentesque convallis. Maecenas feugiat, tellus pellentesque pretium posuere, felis lorem euismod felis, eu ornare leo nisi vel felis. Mauris consectetur tortor et purus.</p>
+    </div>
+    <div id="tabs-3" class="tabDiv">
+        <% for(var i=0; i<50; i++) {%>
+        <button style="margin: 5px;"><%= i %>名字</button>
+        <% } %>
+    </div>
+</div>
+</div>
+<div id="tab_department_div" style="position: absolute;left: 0px;top:0px">
+    <div id="tab_department" class="addmachine_tabs" >
+        <ul>
+            <li><a href="#tabs-1">Nunc tincidunt</a></li>
+            <li><a href="#tabs-2">Proin dolor</a></li>
+            <li><a href="#tabs-3">Aenean lacinia</a></li>
+        </ul>
+        <div id="tabs-1" class="tabDiv">
+            <p>5555Proin elit arcu, rutrum commodo, vehicula tempus, commodo a, risus. Curabitur nec arcu. Donec sollicitudin mi sit amet mauris. Nam elementum quam ullamcorper ante. Etiam aliquet massa et lorem. Mauris dapibus lacus auctor risus. Aenean tempor ullamcorper leo. Vivamus sed magna quis ligula eleifend adipiscing. Duis orci. Aliquam sodales tortor vitae ipsum. Aliquam nulla. Duis aliquam molestie erat. Ut et mauris vel pede varius sollicitudin. Sed ut dolor nec orci tincidunt interdum. Phasellus ipsum. Nunc tristique tempus lectus.</p>
+        </div>
+        <div id="tabs-2" class="tabDiv">
+            <p>5555Morbi tincidunt, dui sit amet facilisis feugiat, odio metus gravida ante, ut pharetra massa metus id nunc. Duis scelerisque molestie turpis. Sed fringilla, massa eget luctus malesuada, metus eros molestie lectus, ut tempus eros massa ut dolor. Aenean aliquet fringilla sem. Suspendisse sed ligula in ligula suscipit aliquam. Praesent in eros vestibulum mi adipiscing adipiscing. Morbi facilisis. Curabitur ornare consequat nunc. Aenean vel metus. Ut posuere viverra nulla. Aliquam erat volutpat. Pellentesque convallis. Maecenas feugiat, tellus pellentesque pretium posuere, felis lorem euismod felis, eu ornare leo nisi vel felis. Mauris consectetur tortor et purus.</p>
+            <p>Morbi tincidunt, dui sit amet facilisis feugiat, odio metus gravida ante, ut pharetra massa metus id nunc. Duis scelerisque molestie turpis. Sed fringilla, massa eget luctus malesuada, metus eros molestie lectus, ut tempus eros massa ut dolor. Aenean aliquet fringilla sem. Suspendisse sed ligula in ligula suscipit aliquam. Praesent in eros vestibulum mi adipiscing adipiscing. Morbi facilisis. Curabitur ornare consequat nunc. Aenean vel metus. Ut posuere viverra nulla. Aliquam erat volutpat. Pellentesque convallis. Maecenas feugiat, tellus pellentesque pretium posuere, felis lorem euismod felis, eu ornare leo nisi vel felis. Mauris consectetur tortor et purus.</p>
+        </div>
+        <div id="tabs-3" class="tabDiv">
+            <% for(var i=0; i<50; i++) {%>
+            <button style="margin: 5px;"><%= i %>名字</button>
+            <% } %>
+        </div>
+    </div>
+</div>
+
 </body>

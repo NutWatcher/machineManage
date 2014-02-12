@@ -34,6 +34,7 @@ jQuery.fn.myTabs = function(  method, opt ){
             event: opt.event || "mouseover",
             heightStyle: opt.heightStyle || "fill"
         });
+
     };
     var reFresh = function(obj){
         var opts = {}

@@ -5,7 +5,8 @@
 
 var index = require('./controllers/index');
 var view = require('./controllers/view')
-    ,adminManage = require('./controllers/adminManage');
+    ,adminManage = require('./controllers/adminManage')
+    ,c_machine = require('./controllers/C_machine');
 
 module.exports = function (app) {
     // home page
@@ -16,5 +17,9 @@ module.exports = function (app) {
 
     app.get('/dropDatabase', adminManage.dropDB);
     app.get('/createDatabase', adminManage.createDB);
+
+    app.get('/getMachineInfoByBarcode', c_machine.getInfoByBarcode);
+
+    app.get('/getDepartment', c_machine.getInfoByBarcode);
 
 };

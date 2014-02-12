@@ -3,28 +3,21 @@
  */
 
 var machineDB = require('../dao/machineDao') ;
-function creatMachine() {
-    var newData = {};
-    newData.id = null;
-    newData.barCode = null;
-    newData.misc = null;
-    newData.typeName = null;
-    newData.department = null;
 
-    this.id = null;
-    this.misc = null;
-    this.barCode = null;
-    this.typeName = null;
-    this.department = null;
-
-    this.getNewData = function(){
-        return newData ;
-    }
+var creatMachine = function(data) {
+    if (data === undefined){}
+    this.id = data?data.id:null;
+    this.barCode = data?data.barcode:null;
+    this.misc = data?data.msic:null;
+    this.typeName = data?data.typename:null;
+    this.typeName_id = data?data.type_id:null;
+    this.department = data?data.departmentname:null;
+    this.department_id = data?data.department_id:null;
 
     if (typeof creatMachine._initialized == "undefined") {
 
-        creatMachine.prototype.updataMisc = function (id, misc) {
-            machineDB.updataMisc(id, misc);
+        creatMachine.prototype.updataMisc = function (misc, cb) {
+            machineDB.updataMisc(this, misc, cb);
         };
         creatMachine.prototype.updataDepartment = function (id, departmentId) {
             machineDB.updataDepartment(id,  departmentId);
@@ -51,7 +44,15 @@ function creatMachine() {
             }
             alert(this.color);
         };
+        creatMachine.prototype.getInfo = function () {
+            var newData = this.getNewData() ;
+            if ( newData.misc != this.misc ){
+                this.updataMisc(this.id, newData.misc) ;
+            }
+            alert(this.color);
+        };
 
         creatMachine._initialized = true;
-    }
+    };
 }
+exports.creatMachine = creatMachine ;
