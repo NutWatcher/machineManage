@@ -10,26 +10,7 @@ var baseDb = require('./baseDao');
 var m_department = require('../mode/M_department');
 
 exports.getInfoAll = function (logInfo, cb) {
-    var strSql = "SELECT " +
-        "a.idmachinebarcode id, " +
-        "    a.machinemsic msic, "+
-        "    a.machinebarcode barcode, " +
-        "    b1.department_id, " +
-        "    b2.departmentname, " +
-        "    c1.type_id, " +
-        "    c2.typename " +
-        "FROM  " +
-        "machinebarcode a " +
-        "left join " +
-        "department_barcode b1 ON a.idmachinebarcode = b1.barcode_id " +
-        "left join " +
-        "department b2 ON b2.iddepartment = b1.department_id " +
-        "left join " +
-        "barcode_type c1 ON a.idmachinebarcode = c1.barcode_id " +
-        "left join " +
-        "machinetype c2 ON c2.idmachinetype = c1.type_id " +
-        "where " +
-        "a.machinebarcode like " + baseDb.escape(barcode) + ";"
+    var strSql = "SELECT iddepartment id , departmentname FROM machinemanage.department;"
     baseDb.queryDb(strSql, logInfo, function(err, rows) {
         if (err) {
             cb(err);
@@ -37,7 +18,7 @@ exports.getInfoAll = function (logInfo, cb) {
         }
         var re = [];
         for (var  i = 0 ; i < rows.length ; i ++){
-            re.push(new m_machine.creatMachine(rows[i]));
+            re.push(new m_department.creatDepartment(rows[i]));
         }
         cb(err, re);
     });

@@ -10,42 +10,36 @@
  */
 
 var machineDB = require('../dao/machineDao') ;
-function creatDepartment() {
-    var newData = {};
-    newData.id = null;
-    newData.name = null;
+function creatDepartment(data) {
 
-    this.id = null;
-    this.name = null;
 
-    this.getNewData = function(){
-        return newData ;
-    }
-    this.setNewData = function(attribute, value){
-        newData[attribute] = value ;
-    }
+    if (data === undefined){}
+    this.id = data?data.id:null;
+    this.name = data?data.departmentname:null;
 
     if (typeof creatDepartment._initialized == "undefined") {
 
-        creatDepartment.prototype.updataName = function (id, name) {
-            machineDB.updataMisc(id, name);
+        creatDepartment.prototype.updataMisc = function (misc, cb) {
+            machineDB.updataMisc(this, misc, cb);
         };
-        creatDepartment.prototype.changeName = function (newName) {
-            this.setNewData('name', newName) ;
-        };
-        creatDepartment.prototype.addDepartment = function (name) {
-            machineDB.updataMisc(id, name);
-        };
+
+
         creatDepartment.prototype.commitToDB = function () {
             var newData = this.getNewData() ;
-            if (this.id == null && newData.name != null){
-                this.addDepartment(newData.name) ;
+            if ( newData.misc != this.misc ){
+                this.updataMisc(this.id, newData.misc) ;
             }
-            else if ( newData.name != this.name ){
-                this.updataName(this.id, newData.name) ;
+            alert(this.color);
+        };
+        creatDepartment.prototype.getInfo = function () {
+            var newData = this.getNewData() ;
+            if ( newData.misc != this.misc ){
+                this.updataMisc(this.id, newData.misc) ;
             }
+            alert(this.color);
         };
 
         creatDepartment._initialized = true;
-    }
-}
+    };
+};
+exports.creatDepartment = creatDepartment ;

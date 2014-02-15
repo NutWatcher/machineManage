@@ -31,6 +31,9 @@
             "create": "CREATE  TABLE if not exists `barcode_type` (`idbarcode_type` INT NOT NULL AUTO_INCREMENT ,`barcode_id` INT NOT NULL ,`type_id` INT NOT NULL ,PRIMARY KEY (`idbarcode_type`) ,UNIQUE INDEX `barcode_id_UNIQUE` (`idbarcode_type` ASC) );"
         },
         {
+            "creat": "CREATE  TABLE if not exists `department_barcode` (`iddepartment_barcode` INT NOT NULL AUTO_INCREMENT ,`department_id` INT NOT NULL ,`barcode_id` INT NOT NULL ,PRIMARY KEY (`iddepartment_barcode`) , INDEX `department_idx` (`department_id` ASC) , CONSTRAINT `department_barcode-department` FOREIGN KEY (`department_id` ) REFERENCES `machinemanage`.`department` (`iddepartment` ) ON DELETE NO ACTION ON UPDATE NO ACTION, CONSTRAINT `department_barcode-barcode` FOREIGN KEY (`barcode_id` ) REFERENCES `machinemanage`.`machinebarcode` (`idmachinebarcode` ) ON DELETE NO ACTION ON UPDATE NO ACTION);"
+        },
+        {
             "create": "CREATE  TABLE if not exists `recordhistory` (`idrecordhistory` INT NOT NULL AUTO_INCREMENT ,`barcode_id` INT NOT NULL ,`department_id` INT NOT NULL ,`recordhistorytime` DATETIME NOT NULL ,PRIMARY KEY (`idrecordhistory`) ,INDEX `department_idx` (`department_id` ASC) ,INDEX `barcode_idx` (`idrecordhistory` ASC) ,CONSTRAINT `barcode`FOREIGN KEY (`barcode_id` )REFERENCES `machinemanage`.`machinebarcode` (`idmachinebarcode` )ON DELETE NO ACTION ON UPDATE NO ACTION,CONSTRAINT `department` FOREIGN KEY (`department_id` )REFERENCES `machinemanage`.`department` (`iddepartment` )ON DELETE NO ACTION ON UPDATE NO ACTION);"
         }
     ]

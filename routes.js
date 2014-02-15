@@ -6,7 +6,8 @@
 var index = require('./controllers/index');
 var view = require('./controllers/view')
     ,adminManage = require('./controllers/adminManage')
-    ,c_machine = require('./controllers/C_machine');
+    ,c_machine = require('./controllers/C_machine')
+    ,c_department = require('./controllers/C_department');
 
 module.exports = function (app) {
     // home page
@@ -20,6 +21,6 @@ module.exports = function (app) {
 
     app.get('/getMachineInfoByBarcode', c_machine.getInfoByBarcode);
 
-    app.get('/getDepartment', c_machine.getInfoByBarcode);
+    app.get('/getDepartment', c_department.getInfoAll);
 
 };
