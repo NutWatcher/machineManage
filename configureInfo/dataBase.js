@@ -80,6 +80,6 @@ exports.dataBase = {
             "        REFERENCES `machinemanage`.`department` (`iddepartment`)        "+
             "        ON DELETE NO ACTION ON UPDATE NO ACTION                         "+
             ");",
-        "drop" :""
+        "drop" :"ff"
     }
 }
