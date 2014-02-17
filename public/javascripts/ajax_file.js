@@ -1,33 +1,7 @@
 /**
  * Created by lyy on 13-12-22.
  */
-function ajax_getBatchFile(cb) {
-    $.ajax({
-        type: "GET",
-        url: "./getBatchFile",
-        timeout: 5000
-    });
-};
-function ajax_callback(result,info,filename) {
-    //处理结果
-    switch(result) {
-        case 1:
-            $('#fileUpInfo').text("上传成功，导入中，请稍后！！！");
-            $('#fileUpOtherInfo').text(info);
-            ajax_fileToDb(filename);
-            break;
-        case 2:
-            alert("文件名非法，请重新上传！");
-            break;
-        case 3:
-            alert("文件不存在，请重新上传！");
-            break;
-        default :
-            alert("合法");
-    }
-    return ;
-};
-function ajax_fileToDb(filename) {
+/*function ajax_fileToDb(filename) {
     $('#upBackInfo tbody').empty();
     $.ajax({
         type: "POST",
@@ -58,129 +32,59 @@ function ajax_fileToDb(filename) {
             $('#pInfo').text(error.toString());
         }
     });
-};
-function addMailPackage(cb){
+};*/
+
+function addDepartment(data, cb){
     $.ajax({
         method: 'POST',
-        url: './addMailPackage',
+        url: './addDepartment',
+        data: data,
         success: function(msg){
-            cb(msg);
+            if (msg.success == false){
+                cb(msg.data, msg) ;
+            }
+            else{
+                cb(null, msg);
+            }
         },
         error: function(xmlHttpRequest, err){
-            alert(err.toString());
-            $('#pInfo').text("新建包失败！！！" + err.toString());
+            cb(err.tostring());
         }
     })
 };
-function getMailPackage(len, cb){
-    $.ajax({
-        method: 'GET',
-        url: './getMailPackage',
-        data:{
-            len : len
-        },
-        success: function(msg){
-            cb(msg);
-        },
-        error: function(xmlHttpRequest, err){
-            alert(err.toString());
-            $('#pInfo').text("获取包信息失败！！！" + err.toString());
-        }
-    })
-};
-function getMailPackageInfo(start, len, cb){
-    $.ajax({
-        method: 'GET',
-        url: './getMailPackageInfo',
-        data:{
-            length : len,
-            start: start
-        },
-        success: function(msg){
-            cb(msg);
-        },
-        error: function(xmlHttpRequests, err){
-            alert(err.toString());
-            $('#pInfo').text("获取包信息失败！！！" + err.toString());
-        }
-    })
-};
-function getMailPackageMailCount(packageId, cb){
-    $.ajax({
-        method: 'get',
-        url: './getMailPackageMailCount',
-        data:{
-            packageId : packageId
-        },
-        success: function(msg){
-            cb(msg);
-        },
-        error: function(xmlHttpRequest, err){
-            alert(err.toString());
-            $('#pInfo').text("获取包数量失败！！！" + err.toString());
-        }
-    })
-};
-function insertMailToPackage(mailName, packageId, cb){
+function addType(data, cb){
     $.ajax({
         method: 'POST',
-        url: './insertMailToPackage',
-        data:{
-            mailName : mailName,
-            packageId: packageId
-        },
+        url: './addType',
+        data: data,
         success: function(msg){
-            cb(msg);
+            if (msg.success == false){
+                cb(msg.data, msg) ;
+            }
+            else{
+                cb(null, msg);
+            }
         },
         error: function(xmlHttpRequest, err){
-            alert(err.toString());
-            $('#pInfo').text("返回信息失败！！！" + err.toString());
+            cb(err.tostring());
         }
     })
 };
-function delBatchFile(fileName, cb){
+function addMachine(data, cb){
     $.ajax({
         method: 'POST',
-        url: './delBatchFile',
-        data:{
-            fileName : fileName
-        },
+        url: './addMachine',
+        data: data,
         success: function(msg){
-            cb(msg);
+            if (msg.success == false){
+                cb(msg.data, msg) ;
+            }
+            else{
+                cb(null, msg.data);
+            }
         },
         error: function(xmlHttpRequest, err){
-            alert(err.toString());
-            $('#pInfo').text("删除失败！！！" + err.toString());
-        }
-    })
-};
-function resetMail(mailName, cb){
-    $.ajax({
-        method: 'POST',
-        url: './resetMail',
-        data:{
-            mailName : mailName
-        },
-        success: function(msg){
-            cb(msg);
-        },
-        error: function(xmlHttpRequest, err){
-            alert(err.toString());
-            $('#pInfo').text("删除失败！！！" + err.toString());
-        }
-    })
-};
-function getBatchFileCount(cb){
-    $.ajax({
-        method: 'POST',
-        url: './getBatchFileCount',
-        data:{},
-        success: function(msg){
-            cb(msg);
-        },
-        error: function(xmlHttpRequest, err){
-            alert(err.toString());
-            $('#pInfo').text("获取总数失败！！！" + err.toString());
+            cb(err.tostring());
         }
     })
 };

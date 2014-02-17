@@ -7,7 +7,8 @@ var index = require('./controllers/index');
 var view = require('./controllers/view')
     ,adminManage = require('./controllers/adminManage')
     ,c_machine = require('./controllers/C_machine')
-    ,c_department = require('./controllers/C_department');
+    ,c_department = require('./controllers/C_department')
+    ,c_type = require('./controllers/C_type');
 
 module.exports = function (app) {
     // home page
@@ -20,7 +21,13 @@ module.exports = function (app) {
     app.get('/createDatabase', adminManage.createDB);
 
     app.get('/getMachineInfoByBarcode', c_machine.getInfoByBarcode);
+    app.get('/addMachine', c_machine.addMachine);
 
     app.get('/getDepartment', c_department.getInfoAll);
+    app.post('/addDepartment', c_department.addDepartment);
+
+    app.get('/getType', c_type.getInfoAll);
+    app.post('/addType', c_type.addType);
+
 
 };

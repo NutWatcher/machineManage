@@ -49,3 +49,16 @@ exports.getInfoByBarcode = function (barcode, logInfo, cb) {
         cb(err, re);
     });
 }
+exports.addMachineByTrans = function (connection, machine, logInfo, cb) {
+    var strSql = "INSERT INTO `machinebarcode` (`machinebarcode`, `machinemsic`) VALUES ("+
+        baseDb.escape(machine.barCode) +", "+
+        baseDb.escape(machine.misc) +");"
+    baseDb.queryTransactions(connection, strSql, logInfo, function(err, rows) {
+        if (err) {
+            cb(err);
+            return;
+        }
+        machine.id = rows.insertId ;
+        cb(err, machine);
+    });
+};

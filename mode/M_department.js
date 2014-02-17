@@ -11,11 +11,11 @@
 
 var machineDB = require('../dao/machineDao') ;
 function creatDepartment(data) {
-
-
-    if (data === undefined){}
-    this.id = data?data.id:null;
-    this.name = data?data.departmentname:null;
+    if (typeof data =="undefined"){
+        data={};
+    }
+    this.id = data.id||null;
+    this.name = data.departmentname||null;
 
     if (typeof creatDepartment._initialized == "undefined") {
 

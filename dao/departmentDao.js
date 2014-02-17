@@ -10,7 +10,7 @@ var baseDb = require('./baseDao');
 var m_department = require('../mode/M_department');
 
 exports.getInfoAll = function (logInfo, cb) {
-    var strSql = "SELECT iddepartment id , departmentname FROM machinemanage.department;"
+    var strSql = "SELECT iddepartment id , departmentname FROM department;"
     baseDb.queryDb(strSql, logInfo, function(err, rows) {
         if (err) {
             cb(err);
@@ -22,4 +22,14 @@ exports.getInfoAll = function (logInfo, cb) {
         }
         cb(err, re);
     });
-}
+};
+exports.insert = function (departmentName, logInfo, cb) {
+    var strSql = "INSERT INTO `department` (`departmentname`) VALUES ("+ baseDb.escape(departmentName) +");"
+    baseDb.queryDb(strSql, logInfo, function(err, rows) {
+        if (err) {
+            cb(err);
+            return;
+        }
+        cb(err, rows);
+    });
+};

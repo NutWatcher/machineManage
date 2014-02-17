@@ -60,6 +60,20 @@ table {
     height: 40px;
     float: left;
 }
+.addmachine_textareaDiv{
+    width: 300px;
+    height: 80px;
+    float: left;
+}
+.addmachine_textareaInput,.addmachine_dataInput{
+    border: 0;
+    width: 290px;
+    overflow:hidden;
+    float: left;
+    line-height: 30px;
+    padding:5px ;
+    font-size: 25px
+}
 .border_gray{
     border: 1px solid #d3d3d3;
 }
@@ -67,4 +81,20 @@ table {
     height: 500px;
     width: 600px;
     z-index: 100;
+}
+.addType_label, .addDepartment_label{
+    font-size: 20px;
+    float: left;
+    padding-left: 15px;
+    padding-top: 15px;
+    padding-bottom: 10px;
+}
+.addType_input, .addDepartment_input{
+    width: 200px;
+    overflow:hidden;
+    float: left;
+    line-height: 20px;
+    margin-left: 15px;
+    padding: 2px;
+    font-size: 24px;
 }

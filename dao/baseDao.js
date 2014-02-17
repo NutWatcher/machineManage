@@ -8,7 +8,7 @@
 
 var mysql = require('mysql');
 var moment = require('moment');
-var dbConfig = require('../configureInfo/dataBase');
+var dbConfig = require('../configureInfo/dataBase.js').dataBase;
 var log = require('../controllers/errLog');
 
 var pool  = mysql.createPool({
@@ -81,9 +81,71 @@ var queryDb = function (strSql, logInfo, cb) {
         });
     });
 };
+exports.beginTransactions = function(cb){
+    pool.getConnection(function(err, connection) {
+        if (err) {
+            cb(err);
+            return ;
+        }
+        cb(null, connection) ;
+        connection.query( strSql , function(err, rows) {
+            // And done with the connection.
+            if (err) {
+                cb(err);
+                return;
+            }
+            cb(err, rows);
 
+            connection.release();
+            // Don't use the connection here, it has been returned to the pool.
+        });
+    });
+};
+exports.queryTransactions = function(connection, strSql, logInfo, cb){
+    if (cb === undefined){
+        cb = logInfo ;
+        logInfo =  moment().format('YYYY-MM-DD HH:mm:ss.SSS' + ' ');
+    }
+    log.info(logInfo + strSql);
+    connection.getConnection(function(err, connection) {
+        if (err) {
+            cb(err);
+            return ;
+        }
+        connection.query( strSql , function(err, rows) {
+            if (err) {
+                cb(err);
+                return;
+            }
+            cb(err, rows);
+        });
+    });
+};
+exports.endTransactions = function(connection, cb){
+    connection.release();
+};
 exports.createTableDb = function (logInfo, cb) {
-    var strSqls = [] ;
+    queryDb(dbConfig.dataTable.create, moment().format('YYYY-MM-DD HH:mm:ss.SSS') + ' IP:' + logInfo + ' ' , function(err){
+        if (err) {
+            cb(err);
+            return ;
+        }
+        else{
+            var strSql = dbConfig.table.create ;
+            queryDb(strSql, moment().format('YYYY-MM-DD HH:mm:ss.SSS') + ' IP:' + logInfo + ' ' , function(err){
+                if (err) {
+                    cb(err);
+                    return ;
+                }
+                else{
+                    log.info(logInfo ,"数据库初始化完成！" + moment().format('YYYY-MM-DD HH:mm:ss.SSS'));
+                    cb();
+                }
+            });
+        }
+    });
+
+    /*var strSqls = [] ;
     for (var i = 0; i < dbConfig.tables.length ; i ++ ){
         strSqls.push(dbConfig.tables[i].create);
     }
@@ -108,7 +170,7 @@ exports.createTableDb = function (logInfo, cb) {
                 cb() ;
             });
         }
-    });
+    });*/
 };
 
 exports.dropTableDb = function (logInfo, cb) {

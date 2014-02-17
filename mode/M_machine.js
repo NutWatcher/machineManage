@@ -5,14 +5,16 @@
 var machineDB = require('../dao/machineDao') ;
 
 var creatMachine = function(data) {
-    if (data === undefined){}
-    this.id = data?data.id:null;
-    this.barCode = data?data.barcode:null;
-    this.misc = data?data.msic:null;
-    this.typeName = data?data.typename:null;
-    this.typeName_id = data?data.type_id:null;
-    this.department = data?data.departmentname:null;
-    this.department_id = data?data.department_id:null;
+    if (typeof data == "undefined"){
+        data = {};
+    }
+    this.id = data.id||null;
+    this.barCode = data.barcode||null;
+    this.misc = data.msic||null;
+    this.typeName = data.typename||null;
+    this.typeName_id = data.type_id||null;
+    this.department = data.departmentname||null;
+    this.department_id = data.department_id||null;
 
     if (typeof creatMachine._initialized == "undefined") {
 
