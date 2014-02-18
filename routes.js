@@ -21,7 +21,7 @@ module.exports = function (app) {
     app.get('/createDatabase', adminManage.createDB);
 
     app.get('/getMachineInfoByBarcode', c_machine.getInfoByBarcode);
-    app.get('/addMachine', c_machine.addMachine);
+    app.post('/addMachine', c_machine.addMachine);
 
     app.get('/getDepartment', c_department.getInfoAll);
     app.post('/addDepartment', c_department.addDepartment);

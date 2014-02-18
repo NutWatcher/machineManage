@@ -17,6 +17,9 @@ body {
     font-size: 20px;
     text-align: center;
 }
+.my_hr{
+    border-bottom: 1px solid #56dd40;
+}
 thead td{
     padding: 8px;
     border-bottom: 1px solid #56dd40;
@@ -97,4 +100,11 @@ table {
     margin-left: 15px;
     padding: 2px;
     font-size: 24px;
+}
+.index_bodyDiv{
+    padding: 10px 0;
+}
+.index_div{
+    padding-top: 15px;
+    clear: both;
 }

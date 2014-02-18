@@ -10,6 +10,8 @@ var D_machine = require('../dao/machineDao');
 var D_base = require('../dao/baseDao');
 var D_barcode_type = require('../dao/barcode_typeDao');
 var D_barcode_department = require('../dao/barcode_departmentDao');
+var D_recordhistory = require('../dao/recordhistoryDao');
+var m_machine = require('../mode/M_machine');
 var moment = require('moment');
 var log = require('./errLog');
 var EventProxy = require('eventproxy');
@@ -29,17 +31,13 @@ exports.getInfoByBarcode = function(req, res){
         }
     });
 };
-var addMachineBarcode = function(connection, machine, cb){
-    D_machine.addMachineByTrans(connection, machine, moment().format('YYYY-MM-DD HH:mm:ss.SSS') + ' IP:' + req.ip + ' ',function(err, machine){
-        cb(machine) ;
-    });
-};
 exports.addMachine = function(req, res){
     var machine = new m_machine.creatMachine({
-        "barCode":req.body.barcode,
+        "barcode":req.body.barcode.trim(),
         "misc":req.body.misc,
-        "typeName_id":req.body.typeId,
-        "department_id":req.body.departmentId
+        "type_id":req.body.typeId,
+        "department_id":req.body.departmentId,
+        "misc":req.body.misc
     }) ;
     D_base.beginTransactions(function(err, connection){
         //开始事务
@@ -60,7 +58,7 @@ exports.addMachine = function(req, res){
                 }
                 else{
                     var ep = new EventProxy();
-                    ep.all('data1', 'data2', function (tpl, data) {
+                    ep.all('data1', 'data2', 'data3', function (tpl, data) {
                         // 成功回调
                         connection.commit(function(err) {
                             if (err) {
@@ -71,7 +69,7 @@ exports.addMachine = function(req, res){
                                 });
                             }
                             ///do something
-                            log..info(moment().format('YYYY-MM-DD HH:mm:ss.SSS') + ' IP:' + req.ip + 'commit');
+                            log.info(moment().format('YYYY-MM-DD HH:mm:ss.SSS') + ' IP:' + req.ip + 'commit');
                             res.send({"success":true,"data":" 增加成功！！！"});
                             D_base.endTransactions(connection);//结束事务
                         });
@@ -88,6 +86,8 @@ exports.addMachine = function(req, res){
                         moment().format('YYYY-MM-DD HH:mm:ss.SSS') + ' IP:' + req.ip + ' ', ep.done('data1'));
                     D_barcode_department.bindMachineDepartment(connection, machine,
                         moment().format('YYYY-MM-DD HH:mm:ss.SSS') + ' IP:' + req.ip + ' ', ep.done('data2'));
+                    D_recordhistory.bindMachineDepartment(connection, machine,
+                        moment().format('YYYY-MM-DD HH:mm:ss.SSS') + ' IP:' + req.ip + ' ', ep.done('data3'));
                 }
             });
         }

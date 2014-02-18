@@ -8,7 +8,7 @@ exports.dataBase = {
         "database": "",
         "multipleStatements": "true",
         "user": "root",
-        "password": "root"
+        "password": "123123"
     },
     "dataTable": {
         "name": "machinemanage",
@@ -32,15 +32,25 @@ exports.dataBase = {
             "    `machinebarcode` varchar(45) NOT NULL,                              "+
             "    `machinemsic` varchar(255) DEFAULT NULL,                            "+
             "    PRIMARY KEY (`idmachinebarcode`),                                   "+
-            "    UNIQUE INDEX `machinebarcode_UNIQUE` (`idmachinebarcode` ASC)       "+
+            "    UNIQUE INDEX `machinebarcode_UNIQUE` (`machinebarcode` ASC)       "+
             ");                                                                      "+
-            "CREATE TABLE if not exists `department_barcode` (         "+
-            "    `iddepartment_barcode` INT NOT NULL AUTO_INCREMENT,                 "+
-            "    `department_id` INT NOT NULL,                                       "+
-            "    `barcode_id` INT NOT NULL,                                          "+
-            "    PRIMARY KEY (`iddepartment_barcode`),                               "+
-            "    UNIQUE INDEX `barcode_id_UNIQUE` (`iddepartment_barcode` ASC)       "+
-            ");                                                                      "+
+            "CREATE  TABLE if not exists `department_barcode` (                  "+
+            "  `iddepartment_barcode` INT NOT NULL AUTO_INCREMENT ,                "+
+            "  `department_id` INT NOT NULL ,                                      "+
+            "  `barcode_id` INT NOT NULL ,                                         "+
+            "  PRIMARY KEY (`iddepartment_barcode`) ,                              "+
+            "  UNIQUE INDEX `barcode_id_UNIQUE` (`barcode_id` ASC) ,               "+
+            "  INDEX `department_barcode-departmnet_idx` (`department_id` ASC) ,   "+
+            "  CONSTRAINT `department_barcode-barcode`                             "+
+            "    FOREIGN KEY (`barcode_id` )                                       "+
+            "    REFERENCES `machinebarcode` (`idmachinebarcode` ) "+
+            "    ON DELETE NO ACTION                                               "+
+            "    ON UPDATE NO ACTION,                                              "+
+            "  CONSTRAINT `department_barcode-departmnet`                          "+
+            "    FOREIGN KEY (`department_id` )                                    "+
+            "    REFERENCES `department` (`iddepartment` )         "+
+            "    ON DELETE NO ACTION                                               "+
+            "    ON UPDATE NO ACTION);                                             "+
             "CREATE TABLE if not exists `operatestatus` (              "+
             "    `idoperatestatus` INT NOT NULL AUTO_INCREMENT,                      "+
             "    `operatestatusname` VARCHAR(45) NULL,                               "+
@@ -65,20 +75,26 @@ exports.dataBase = {
             "ON DELETE NO ACTION "+
             "ON UPDATE NO ACTION);"+
 
-            "CREATE TABLE if not exists `recordhistory` (              "+
-            "    `idrecordhistory` INT NOT NULL AUTO_INCREMENT,                      "+
-            "    `barcode_id` INT NOT NULL,                                          "+
-            "    `department_id` INT NOT NULL,                                       "+
-            "    `recordhistorytime` DATETIME NOT NULL,                              "+
-            "    PRIMARY KEY (`idrecordhistory`),                                    "+
-            "    INDEX `department_idx` (`department_id` ASC),                       "+
-            "    INDEX `barcode_idx` (`idrecordhistory` ASC),                        "+
-            "    CONSTRAINT `barcode` FOREIGN KEY (`barcode_id`)                     "+
-            "        REFERENCES `machinemanage`.`machinebarcode` (`idmachinebarcode`)"+
-            "        ON DELETE NO ACTION ON UPDATE NO ACTION,                        "+
-            "    CONSTRAINT `department` FOREIGN KEY (`department_id`)               "+
-            "        REFERENCES `machinemanage`.`department` (`iddepartment`)        "+
-            "        ON DELETE NO ACTION ON UPDATE NO ACTION                         "+
+            "CREATE TABLE `recordhistory` (                                         "+
+            "    `idrecordhistory` INT NOT NULL AUTO_INCREMENT,                     "+
+            "    `barcode_id` INT NOT NULL,                                         "+
+            "    `department_id` INT NOT NULL,                                      "+
+            "    `type_id` INT NOT NULL,                                            "+
+            "    `recordhistorytime` DATETIME NOT NULL,                                  "+
+            "    PRIMARY KEY (`idrecordhistory`),                                   "+
+            "    UNIQUE INDEX `idrecordhistory_UNIQUE` (`idrecordhistory` ASC),     "+
+            "    INDEX `recordhistory-barcode_idx` (`barcode_id` ASC),              "+
+            "    INDEX `recordhistory-department_idx` (`department_id` ASC),        "+
+            "    INDEX `recordhistory-type_idx` (`type_id` ASC),                    "+
+            "    CONSTRAINT `recordhistory-barcode` FOREIGN KEY (`barcode_id`)      "+
+            "        REFERENCES `machinebarcode` (`idmachinebarcode`)               "+
+            "        ON DELETE NO ACTION ON UPDATE NO ACTION,                       "+
+            "    CONSTRAINT `recordhistory-department` FOREIGN KEY (`department_id`)"+
+            "        REFERENCES `department` (`iddepartment`)                       "+
+            "        ON DELETE NO ACTION ON UPDATE NO ACTION,                       "+
+            "    CONSTRAINT `recordhistory-type` FOREIGN KEY (`type_id`)            "+
+            "        REFERENCES `machinetype` (`idmachinetype`)                     "+
+            "        ON DELETE NO ACTION ON UPDATE NO ACTION                        "+
             ");",
         "drop" :"ff"
     }

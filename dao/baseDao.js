@@ -87,17 +87,13 @@ exports.beginTransactions = function(cb){
             cb(err);
             return ;
         }
-        cb(null, connection) ;
-        connection.query( strSql , function(err, rows) {
-            // And done with the connection.
+        connection.beginTransaction(function(err) {
             if (err) {
                 cb(err);
-                return;
             }
-            cb(err, rows);
-
-            connection.release();
-            // Don't use the connection here, it has been returned to the pool.
+            else{
+                cb(null, connection) ;
+            }
         });
     });
 };
@@ -107,18 +103,12 @@ exports.queryTransactions = function(connection, strSql, logInfo, cb){
         logInfo =  moment().format('YYYY-MM-DD HH:mm:ss.SSS' + ' ');
     }
     log.info(logInfo + strSql);
-    connection.getConnection(function(err, connection) {
+    connection.query( strSql , function(err, rows) {
         if (err) {
             cb(err);
-            return ;
+            return;
         }
-        connection.query( strSql , function(err, rows) {
-            if (err) {
-                cb(err);
-                return;
-            }
-            cb(err, rows);
-        });
+        cb(err, rows);
     });
 };
 exports.endTransactions = function(connection, cb){

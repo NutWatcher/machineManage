@@ -48,27 +48,43 @@
     </style>
 <body>
 <% include navigation.ejs %>
-<div id="machineInput" ><span>设备编号: <input></span></div>
+<p id="pInfo">&nbsp;</p>
 
-<div id="myta"></div>
-<div id="tabs">
-    <ul>
-        <li><a href="#tabs-1">Nunc tincidunt</a></li>
-        <li><a href="#tabs-2">Proin dolor</a></li>
-        <li><a href="#tabs-3">Aenean lacinia</a></li>
-    </ul>
-    <div id="tabs-1" class="tabDiv">
-        <p>Proin elit arcu, rutrum commodo, vehicula tempus, commodo a, risus. Curabitur nec arcu. Donec sollicitudin mi sit amet mauris. Nam elementum quam ullamcorper ante. Etiam aliquet massa et lorem. Mauris dapibus lacus auctor risus. Aenean tempor ullamcorper leo. Vivamus sed magna quis ligula eleifend adipiscing. Duis orci. Aliquam sodales tortor vitae ipsum. Aliquam nulla. Duis aliquam molestie erat. Ut et mauris vel pede varius sollicitudin. Sed ut dolor nec orci tincidunt interdum. Phasellus ipsum. Nunc tristique tempus lectus.</p>
+<div class="index_bodyDiv">
+    <div class="index_div">
+        <p class="addMachine_lable">设备条码:</p>
+
+        <div class="ui-corner-all addmachine_data border_gray">
+            <input id="addMachine_barcode" class="addmachine_dataInput">
+        </div>
     </div>
-    <div id="tabs-2" class="tabDiv">
-        <p>Morbi tincidunt, dui sit amet facilisis feugiat, odio metus gravida ante, ut pharetra massa metus id nunc. Duis scelerisque molestie turpis. Sed fringilla, massa eget luctus malesuada, metus eros molestie lectus, ut tempus eros massa ut dolor. Aenean aliquet fringilla sem. Suspendisse sed ligula in ligula suscipit aliquam. Praesent in eros vestibulum mi adipiscing adipiscing. Morbi facilisis. Curabitur ornare consequat nunc. Aenean vel metus. Ut posuere viverra nulla. Aliquam erat volutpat. Pellentesque convallis. Maecenas feugiat, tellus pellentesque pretium posuere, felis lorem euismod felis, eu ornare leo nisi vel felis. Mauris consectetur tortor et purus.</p>
-        <p>Morbi tincidunt, dui sit amet facilisis feugiat, odio metus gravida ante, ut pharetra massa metus id nunc. Duis scelerisque molestie turpis. Sed fringilla, massa eget luctus malesuada, metus eros molestie lectus, ut tempus eros massa ut dolor. Aenean aliquet fringilla sem. Suspendisse sed ligula in ligula suscipit aliquam. Praesent in eros vestibulum mi adipiscing adipiscing. Morbi facilisis. Curabitur ornare consequat nunc. Aenean vel metus. Ut posuere viverra nulla. Aliquam erat volutpat. Pellentesque convallis. Maecenas feugiat, tellus pellentesque pretium posuere, felis lorem euismod felis, eu ornare leo nisi vel felis. Mauris consectetur tortor et purus.</p>
+    <div class="index_div my_hr">
     </div>
-    <div id="tabs-3" class="tabDiv">
-        <% for(var i=0; i<50; i++) {%>
-        <button style="margin: 5px;"><%= i %>名字</button>
-        <% } %>
+    <div class="index_div">
+        <table>
+            <thead>
+                <tr>
+                    <td style="width: 15%">时间</td>
+                    <td style="width: 15%">部门</td>
+                    <td style="width: 55%">备注</td>
+                    <td style="width: 15%">类型</td>
+                </tr>
+            </thead>
+            <tbody>
+            <tr>
+                <td>时间</td><td>部门</td><td>备速度的风格的风格的风格是大法官的风格的风格浮动人如果二哥热工如果法国的风格的人的风格而二哥的风格的人工注</td><td>类型</td>
+            </tr>
+            <tr class="tEven">
+                <td>时间</td><td>部门</td><td>备注是大法官的风格是大法官是的风格的风格大概个的风格的风风格是大法官是的风格的风格大概个的风格的风风格是大法官是的风格的风格大概个的风格的风格</td><td>类型</td>
+            </tr>
+            <tr>
+                <td>时间</td><td>部门</td><td>备注</td><td>类型</td>
+            </tr>
+            </tbody>
+        </table>
     </div>
+
+
 </div>
 </body>
 </html>

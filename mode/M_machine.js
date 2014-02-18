@@ -10,7 +10,7 @@ var creatMachine = function(data) {
     }
     this.id = data.id||null;
     this.barCode = data.barcode||null;
-    this.misc = data.msic||null;
+    this.misc = data.misc||null;
     this.typeName = data.typename||null;
     this.typeName_id = data.type_id||null;
     this.department = data.departmentname||null;
