@@ -22,6 +22,7 @@ module.exports = function (app) {
 
     app.get('/getMachineInfoByBarcode', c_machine.getInfoByBarcode);
     app.post('/addMachine', c_machine.addMachine);
+    app.post('/changeMachine', c_machine.changeMachine);
 
     app.get('/getDepartment', c_department.getInfoAll);
     app.post('/addDepartment', c_department.addDepartment);

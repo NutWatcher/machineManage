@@ -19,7 +19,7 @@ exports.updataDepartment = function (id, departmentId) {
 exports.getInfoByBarcode = function (barcode, logInfo, cb) {
     var strSql = "SELECT " +
         "a.idmachinebarcode id, " +
-        "    a.machinemsic msic, "+
+        "    a.machinemsic misc, "+
         "    a.machinebarcode barcode, " +
         "    b1.department_id, " +
         "    b2.departmentname, " +
@@ -36,7 +36,7 @@ exports.getInfoByBarcode = function (barcode, logInfo, cb) {
         "left join " +
         "machinetype c2 ON c2.idmachinetype = c1.type_id " +
         "where " +
-        "a.machinebarcode like " + baseDb.escape(barcode) + ";"
+        "a.machinebarcode = " + baseDb.escape(barcode) + ";"
     baseDb.queryDb(strSql, logInfo, function(err, rows) {
         if (err) {
             cb(err);
@@ -59,6 +59,18 @@ exports.addMachineByTrans = function (connection, machine, logInfo, cb) {
             return;
         }
         machine.id = rows.insertId ;
+        cb(err, machine);
+    });
+};
+exports.changeMachinemisc = function (connection, machine, logInfo, cb) {
+    var strSql = "UPDATE  `machinebarcode` SET `machinemsic`= "+
+        baseDb.escape(machine.misc) +" WHERE `idmachinebarcode`="+
+        baseDb.escape(machine.id)+"; ";
+    baseDb.queryTransactions(connection, strSql, logInfo, function(err, rows) {
+        if (err) {
+            cb(err);
+            return;
+        }
         cb(err, machine);
     });
 };

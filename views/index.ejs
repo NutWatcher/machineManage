@@ -1,90 +1,310 @@
-    <% include head.ejs %>
+<% include head.ejs %>
 
-    <script>
-        $(function () {
-            $("#addNewPackage").button()
-                    .on('click',function(e){
-                        e.stopPropagation();
+<script>
+    $(function () {
+        $('#index_barcode_input').keydown(function(event){
+            if (event.keyCode == 13){
+                //alert(13);
+                var barcode = $('#index_barcode_input').val();
+                if (barcode.trim() == ""){
+                    alert("请输入正确设备条码");
+                    return;
+                }
+                getMachineInfo({"barcode":barcode},function(err, data){
+                    if (err){
+                        $('#pInfo').text(err);
+                    }
+                    else{
+                        if (data.info.length == 0){
+                            $('#pInfo').text(barcode + ' 没有此设备。');
+                        }
+                        else{
+                            $('#selectDepartmentText').text(data.info[0].department);
+                            $('#selectDepartmentVal').text(data.info[0].department_id);
+                            $('#selectTypeText').text(data.info[0].typeName);
+                            $('#selectTypeVal').text(data.info[0].typeName_id);
+                            $('#index_barcode').val(data.info[0].barCode);
+                            $('#changeMachine_misc').val(data.info[0].misc);
 
-                        $( "#tabs" ).tabs( "load", 1 );
-                        $( "#tabs" ).show();
-
+                            $('#index_tbody').empty();
+                            var str = "";
+                            for (var i = 0; i < data.records.length ; i ++){
+                                str = "<tr>            "                                    +
+                                        "<td>"+ data.records[i].date+"</td>   "               +
+                                        "<td>"+ data.records[i].machine.department+"</td>   "+
+                                        "<td>"+ data.records[i].machine.misc+"</td>   "     +
+                                        "<td>"+ data.records[i].machine.typeName+"</td>   "+
+                                    "</tr>";
+                                $('#index_tbody').append(str);
+                            }
+                        }
+                    }
+                });
+            }
+        });
+        $('#changeMachinePost').button().on('click',function(e){
+            e.stopPropagation();
+            var departmentId = $('#selectDepartmentVal').text() ;
+            var typeId = $('#selectTypeVal').text();
+            var barcode = $('#index_barcode').val();
+            var misc = $('#changeMachine_misc').val();
+            if (barcode == ""){
+                alert("请输入正确设备条码");
+                return;
+            }
+            changeMachine({
+                "departmentId": departmentId,
+                "typeId":typeId,
+                "barcode":barcode,
+                "misc":misc
+            },function(err, data){
+                if (err){
+                    $('#pInfo').text(err);
+                }
+                else{
+                    $('#pInfo').text('设备' + barcode +'修改成功!');
+                }
+            });
+        });
+        $('.addMachine_select').mySelectStyle();
+        var position = $("#selectTypeButton").position();
+        $("#tab_type_div").css({ left: position.left + 60, top: position.top + 12}).hide();
+        var position = $("#selectDepartmentButton").position();
+        $("#tab_department_div").css({ left: position.left + 60, top: position.top + 12}).hide();
+        $("#tab_department").myTabs('create', {
+            event: "mouseover",
+            heightStyle: "fill",
+            titles: [
+                {"text": "全部", "reg": "0,60"},
+                {"text": "1-3", "reg": "0,1"}
+            ],
+            remote: true,
+            url: "./getDepartment",
+            buttonClick: function (e) {
+                e.stopPropagation();
+                var val = $(this).val()
+                        , text = $(this).text();
+                $('#selectDepartmentText').text(text);
+                $('#selectDepartmentVal').text(val);
+                $('#tab_department_div').hide();
+            }
+        });
+        $("#tab_type").myTabs('create', {
+            event: "mouseover",
+            heightStyle: "fill",
+            titles: [
+                {"text": "全部", "reg": "0,60"},
+                {"text": "1-3", "reg": "0,1"}
+            ],
+            remote: true,
+            url: "./getType",
+            buttonClick: function (e) {
+                e.stopPropagation();
+                var val = $(this).val()
+                        , text = $(this).text();
+                $('#selectTypeText').text(text);
+                $('#selectTypeVal').text(val);
+                $('#tab_type_div').hide();
+            }
+        });
+        $('#selectTypeButton').on({
+            'click': function (e) {
+                e.stopPropagation();
+                if ($("#tab_department_div").css('display') != 'none') {
+                    $("#tab_department_div").hide();
+                }
+                if ($("#tab_type_div").css('display') == 'none') {
+                    $("#tab_type_div").show();
+                }
+                else {
+                    $("#tab_type_div").hide();
+                }
+            }
+        });
+        $('#selectDepartmentButton').on({
+            'click': function (e) {
+                e.stopPropagation();
+                if ($("#tab_type_div").css('display') != 'none') {
+                    $("#tab_type_div").hide();
+                }
+                if ($("#tab_department_div").css('display') == 'none') {
+                    $("#tab_department_div").show();
+                }
+                else {
+                    $("#tab_department_div").hide();
+                }
+            }
+        });
+        $("#addDepartmentDialog").dialog({
+            autoOpen: false,
+            modal: true,
+            buttons: {
+                "增加": function () {
+                    addDepartment({"name": $('#addDepartment_input').val()}, function (err, msg) {
+                        if (err) {
+                            alert(err);
+                        }
+                        else {
+                            $("#tab_department").myTabs('reFresh');
+                        }
                     });
-
-            $("button").button()
-                    .on('click',function(e){
-                        e.stopPropagation();
-                        $( "#tabs").hide();
+                    $(this).dialog("close");
+                }
+            }});
+        $('#addDepartment').on({
+            'click': function (e) {
+                e.stopPropagation();
+                $("#addDepartmentDialog").dialog("open");
+            }
+        });
+        $("#addTypeDialog").dialog({
+            autoOpen: false,
+            modal: true,
+            buttons: {
+                "增加": function () {
+                    addType({"name": $('#addType_input').val()}, function (err, msg) {
+                        if (err) {
+                            alert(err);
+                        }
+                        else {
+                            $("#tab_type").myTabs('reFresh');
+                        }
                     });
-            $( "#myta" ).myTabs('creat',{
-                event: "mouseover",
-                heightStyle: "fill",
-                url : "../getTitles"
-            });
-            $( "#myta" ).myTabs('reFresh',{
-                event: "mouseover",
-                heightStyle: "fill",
-                url : "../getTitles"
-            });
-            $( "#tabs" ).tabs({
-                event: "mouseover",
-                heightStyle: "fill",
-                url : "../getTitles"
-            });
-;
-
-           // $( "#tabs").hide();
-        })
-    </script>
-    <style>
-        #tabs{
-            height: 200px;
-        width: 600px;
-        }
-        #myta{
-            height: 200px;
-            width: 600px;
-        }
-    </style>
+                    $(this).dialog("close");
+                }
+            }});
+        $('#addType').on({
+            'click': function (e) {
+                e.stopPropagation();
+                $("#addTypeDialog").dialog("open");
+            }
+        });
+    });
+</script>
 <body>
 <% include navigation.ejs %>
 <p id="pInfo">&nbsp;</p>
 
 <div class="index_bodyDiv">
     <div class="index_div">
-        <p class="addMachine_lable">设备条码:</p>
+        <p class="index_lable">设备条码:</p>
 
         <div class="ui-corner-all addmachine_data border_gray">
-            <input id="addMachine_barcode" class="addmachine_dataInput">
+            <input id="index_barcode_input" class="index_dataInput">
+            <input id="index_barcode" style="display: none">
         </div>
     </div>
+    <div class="index_div">
+        <div style="float: left">
+            <div class="index_div">
+                <p class="index_lable">设备类型:</p>
+
+                <div class="ui-corner-all addmachine_data border_gray">
+                    <span id="selectTypeText"
+                          style="width: 250px;overflow:hidden;float: left;line-height: 40px;padding-left:5px;font-size: 30px"></span>
+                    <span id="selectTypeVal" style="display: none"></span>
+                    <span id="selectTypeButton" class="ui-corner-right lyy-light-background addMachine_select"
+                          style="padding: 12px 0;float: right; "
+                          title="选择设备类型">
+                        <span class="ui-icon ui-icon-triangle-1-e" style="margin: 0 12px;"></span>
+                    </span>
+                </div>
+                <span id="addType" class="ui-corner-all border_gray lyy-light-background addMachine_select"
+                      style="margin-left: 10px;padding: 12px 0;float: left; "
+                      title="增加设备类型">
+                    <span class="ui-icon ui-icon-plus" style="margin: 0 12px;"></span>
+                </span>
+            </div>
+            <div class="index_div">
+                <p class="index_lable">部门:</p>
+
+                <div class="ui-corner-all addmachine_data border_gray">
+                    <span id="selectDepartmentText"
+                          style="width: 250px;overflow:hidden;float: left;line-height: 40px;padding-left:5px;font-size: 30px"></span>
+                    <span id="selectDepartmentVal" style="display: none"></span>
+                    <span id="selectDepartmentButton" class="ui-corner-right lyy-light-background addMachine_select"
+                          style="padding: 12px 0;float: right; "
+                          title="选择部门">
+                        <span class="ui-icon ui-icon-triangle-1-e" style="margin: 0 12px;"></span>
+                    </span>
+                </div>
+                <span id="addDepartment" class="ui-corner-all border_gray lyy-light-background addMachine_select"
+                      style="margin-left: 10px;padding: 12px 0;float: left; "
+                      title="增加部门">
+                    <span class="ui-icon ui-icon-plus" style="margin: 0 12px;"></span>
+                </span>
+            </div>
+            <div class="index_div">
+                <p class="index_lable"></p>
+
+                <div class="index_data">
+                    <p id="changeMachinePost">转移</p>
+                </div>
+            </div>
+        </div>
+        <div style="float: left;padding-left: 20px">
+            <div class="index_div">
+                <p class="index_lable" style="width: 50px">备注:</p>
+
+                <div class="ui-corner-all index_textareaDiv border_gray">
+                    <textarea id="changeMachine_misc" class="index_textareaInput"></textarea>
+                </div>
+            </div>
+        </div>
+    </div>
+
     <div class="index_div my_hr">
     </div>
     <div class="index_div">
         <table>
             <thead>
-                <tr>
-                    <td style="width: 15%">时间</td>
-                    <td style="width: 15%">部门</td>
-                    <td style="width: 55%">备注</td>
-                    <td style="width: 15%">类型</td>
-                </tr>
-            </thead>
-            <tbody>
             <tr>
-                <td>时间</td><td>部门</td><td>备速度的风格的风格的风格是大法官的风格的风格浮动人如果二哥热工如果法国的风格的人的风格而二哥的风格的人工注</td><td>类型</td>
+                <td style="width: 15%">时间</td>
+                <td style="width: 15%">部门</td>
+                <td style="width: 55%">备注</td>
+                <td style="width: 15%">类型</td>
+            </tr>
+            </thead>
+            <tbody id="index_tbody">
+            <tr>
+                <td>时间</td>
+                <td>部门</td>
+                <td>备速度的风格的风格的风格是大法官的风格的风格浮动人如果二哥热工如果法国的风格的人的风格而二哥的风格的人工注</td>
+                <td>类型</td>
             </tr>
             <tr class="tEven">
-                <td>时间</td><td>部门</td><td>备注是大法官的风格是大法官是的风格的风格大概个的风格的风风格是大法官是的风格的风格大概个的风格的风风格是大法官是的风格的风格大概个的风格的风格</td><td>类型</td>
+                <td>时间</td>
+                <td>部门</td>
+                <td>备注是大法官的风格是大法官是的风格的风格大概个的风格的风风格是大法官是的风格的风格大概个的风格的风风格是大法官是的风格的风格大概个的风格的风格</td>
+                <td>类型</td>
             </tr>
             <tr>
-                <td>时间</td><td>部门</td><td>备注</td><td>类型</td>
+                <td>时间</td>
+                <td>部门</td>
+                <td>备注</td>
+                <td>类型</td>
             </tr>
             </tbody>
         </table>
     </div>
+</div>
 
 
+<div id="tab_type_div" style="position: absolute;left: 0px;top:0px">
+    <div id="tab_type" class="addmachine_tabs">
+    </div>
+</div>
+<div id="tab_department_div" style="position: absolute;left: 0px;top:0px">
+    <div id="tab_department" class="addmachine_tabs">
+    </div>
+</div>
+<div id="addDepartmentDialog" title="新增部门">
+    <p class="addDepartment_label">部门名称:</p>
+    <input id="addDepartment_input" name="addDepartment_input" class="addDepartment_input">
+</div>
+<div id="addTypeDialog" title="新增设备类型">
+    <p class="addType_label">设备类型名称:</p>
+    <input id="addType_input" name="addType_input" class="addType_input">
 </div>
 </body>
 </html>

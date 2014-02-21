@@ -50,6 +50,10 @@ table {
     padding-top: 15px;
     clear: both;
 }
+.index_div{
+    padding-top: 15px;
+    clear: both;
+}
 .addMachine_lable{
     width: 150px;
     font-size: 20px;
@@ -58,7 +62,20 @@ table {
     padding-right: 15px;
     padding-top: 15px;
 }
+.index_lable{
+    width: 80px;
+    font-size: 15px;
+    float: left;
+    text-align: right;
+    padding-right: 10px;
+    padding-top: 15px;
+}
 .addmachine_data{
+    width: 300px;
+    height: 40px;
+    float: left;
+}
+.index_data{
     width: 300px;
     height: 40px;
     float: left;
@@ -67,6 +84,30 @@ table {
     width: 300px;
     height: 80px;
     float: left;
+}
+.index_textareaDiv{
+    width: 300px;
+    height: 85px;
+    float: left;
+}
+.index_textareaInput{
+    border: 0;
+    width: 290px;
+    height: 75px;
+    overflow:hidden;
+    float: left;
+    line-height: 30px;
+    padding:5px ;
+    font-size: 25px
+}
+.index_dataInput{
+    border: 0;
+    width: 290px;
+    overflow:hidden;
+    float: left;
+    line-height: 30px;
+    padding:5px ;
+    font-size: 25px
 }
 .addmachine_textareaInput,.addmachine_dataInput{
     border: 0;
