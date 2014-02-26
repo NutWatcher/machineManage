@@ -16,7 +16,7 @@ exports.bindMachineType = function (connection, machine, logInfo, cb) {
 };
 exports.changeMachineType = function (connection, machine, logInfo, cb) {
     var strSql = "UPDATE  `barcode_type` SET `type_id`= "+
-        baseDb.escape(machine.department_id) +" WHERE `barcode_id`="+
+        baseDb.escape(machine.typeName_id) +" WHERE `barcode_id`="+
         baseDb.escape(machine.id)+"; ";
     baseDb.queryTransactions(connection, strSql, logInfo, function(err, rows) {
         if (err) {

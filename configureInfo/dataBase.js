@@ -8,7 +8,7 @@ exports.dataBase = {
         "database": "",
         "multipleStatements": "true",
         "user": "root",
-        "password": "123123"
+        "password": "root"
     },
     "dataTable": {
         "name": "machinemanage",
@@ -80,6 +80,7 @@ exports.dataBase = {
             "    `barcode_id` INT NOT NULL,                                         "+
             "    `department_id` INT NOT NULL,                                      "+
             "    `type_id` INT NOT NULL,                                            "+
+            "    `misc` varchar(255) DEFAULT NULL,                                     "+
             "    `recordhistorytime` DATETIME NOT NULL,                                  "+
             "    PRIMARY KEY (`idrecordhistory`),                                   "+
             "    UNIQUE INDEX `idrecordhistory_UNIQUE` (`idrecordhistory` ASC),     "+

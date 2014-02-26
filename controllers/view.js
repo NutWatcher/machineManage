@@ -15,3 +15,6 @@ exports.addMachine = function(req, res){
 exports.admin = function(req, res){
     res.render('admin', { title: '超级管理' });
 };
+exports.manage = function(req, res){
+    res.render('manageMachine', { title: '超级管理' });
+};

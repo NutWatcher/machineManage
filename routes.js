@@ -16,6 +16,7 @@ module.exports = function (app) {
     app.get('/index', view.index);
     app.get('/admin', view.admin);
     app.get('/addMachine', view.addMachine);
+    app.get('/manage', view.manage);
 
     app.get('/dropDatabase', adminManage.dropDB);
     app.get('/createDatabase', adminManage.createDB);
@@ -23,6 +24,7 @@ module.exports = function (app) {
     app.get('/getMachineInfoByBarcode', c_machine.getInfoByBarcode);
     app.post('/addMachine', c_machine.addMachine);
     app.post('/changeMachine', c_machine.changeMachine);
+    app.get('/getMachinesByTypeDepartment', c_machine.getMachinesByTypeDepartment);
 
     app.get('/getDepartment', c_department.getInfoAll);
     app.post('/addDepartment', c_department.addDepartment);

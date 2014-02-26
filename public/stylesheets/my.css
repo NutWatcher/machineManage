@@ -25,7 +25,6 @@ thead td{
     border-bottom: 1px solid #56dd40;
 }
 tbody td span{
-
     cursor: pointer;
 }
 tbody td{
@@ -53,6 +52,15 @@ table {
 .index_div{
     padding-top: 15px;
     clear: both;
+}
+.manage_div{
+    padding-top: 15px;
+    clear: both;
+}
+.manage_select_div{
+    padding-top: 15px;
+    float: left;
+    padding-left: 20px;
 }
 .addMachine_lable{
     width: 150px;
@@ -144,8 +152,4 @@ table {
 }
 .index_bodyDiv{
     padding: 10px 0;
-}
-.index_div{
-    padding-top: 15px;
-    clear: both;
 }

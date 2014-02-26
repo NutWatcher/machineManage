@@ -9,10 +9,11 @@ var baseDb = require('./baseDao');
 var moment = require('moment');
 var m_machineHistory = require('../mode/M_machineHistory');
 exports.insertRecord = function (connection, machine, logInfo, cb) {
-    var strSql = "INSERT INTO `recordhistory` (`barcode_id`, `department_id`, `type_id`, `recordhistorytime`) VALUES ("+
+    var strSql = "INSERT INTO `recordhistory` (`barcode_id`, `department_id`, `type_id`, `misc`, `recordhistorytime` ) VALUES ("+
         baseDb.escape(machine.id) +", "+
         baseDb.escape(machine.department_id) +", "+
         baseDb.escape(machine.typeName_id) +", "+
+        baseDb.escape(machine.misc) +", "+
         baseDb.escape(moment().format('YYYY-MM-DD HH:mm:ss.SSS')) +");"
     baseDb.queryTransactions(connection, strSql, logInfo, function(err, rows) {
         if (err) {
@@ -27,7 +28,7 @@ exports.getInfoByBarcode = function (barcode, logInfo, cb) {
     var strSql = "SELECT                                                "+
         "a.barcode_id id,                                                   "+
         "    b.machinebarcode barcode,                                      "+
-        "    b.machinemsic misc,                                            "+
+        "    a.misc misc,                                            "+
         "    a.department_id,                                               "+
         "    c.departmentname,                                              "+
         "    a.type_id,                                                     "+

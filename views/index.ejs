@@ -37,6 +37,7 @@
                                     "</tr>";
                                 $('#index_tbody').append(str);
                             }
+                            $("#index_tbody tr:odd").addClass("tEven");
                         }
                     }
                 });
@@ -63,6 +64,42 @@
                 }
                 else{
                     $('#pInfo').text('设备' + barcode +'修改成功!');
+                    var barcode = $('#index_barcode_input').val();
+                    if (barcode.trim() == ""){
+                        alert("请输入正确设备条码");
+                        return;
+                    }
+                    getMachineInfo({"barcode":barcode},function(err, data){
+                        if (err){
+                            $('#pInfo').text(err);
+                        }
+                        else{
+                            if (data.info.length == 0){
+                                $('#pInfo').text(barcode + ' 没有此设备。');
+                            }
+                            else{
+                                $('#selectDepartmentText').text(data.info[0].department);
+                                $('#selectDepartmentVal').text(data.info[0].department_id);
+                                $('#selectTypeText').text(data.info[0].typeName);
+                                $('#selectTypeVal').text(data.info[0].typeName_id);
+                                $('#index_barcode').val(data.info[0].barCode);
+                                $('#changeMachine_misc').val(data.info[0].misc);
+
+                                $('#index_tbody').empty();
+                                var str = "";
+                                for (var i = 0; i < data.records.length ; i ++){
+                                    str = "<tr>            "                                    +
+                                            "<td>"+ data.records[i].date+"</td>   "               +
+                                            "<td>"+ data.records[i].machine.department+"</td>   "+
+                                            "<td>"+ data.records[i].machine.misc+"</td>   "     +
+                                            "<td>"+ data.records[i].machine.typeName+"</td>   "+
+                                            "</tr>";
+                                    $('#index_tbody').append(str);
+                                }
+                                $("#index_tbody tr:odd").addClass("tEven");
+                            }
+                        }
+                    });
                 }
             });
         });

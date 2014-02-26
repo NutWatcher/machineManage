@@ -20,6 +20,17 @@ exports.upMisc = function (req, res) {
     machine = new m_machine.creatMachine();
 
 };
+exports.getMachinesByTypeDepartment = function(req, res){
+    D_machine.getInfoByTypeDepartment(req.query.typeId, req.query.departmentId, moment().format('YYYY-MM-DD HH:mm:ss.SSS') + ' IP:' + req.ip + ' ', function (err, data) {
+        if (err) {
+            log.error(err);
+            res.send({"success": false, "data": req.body.barcode + " 数据库查询出错！！！" + err.message });
+        }
+        else {
+            res.send({"success": true, "data": data });
+        }
+    });
+};
 exports.getInfoByBarcode = function (req, res) {
     D_machine.getInfoByBarcode(req.query.barcode, moment().format('YYYY-MM-DD HH:mm:ss.SSS') + ' IP:' + req.ip + ' ', function (err, dataInfo) {
         if (err) {
@@ -248,7 +259,7 @@ exports.addMachine = function (req, res) {
                         moment().format('YYYY-MM-DD HH:mm:ss.SSS') + ' IP:' + req.ip + ' ', ep.done('data1'));
                     D_barcode_department.bindMachineDepartment(connection, machine,
                         moment().format('YYYY-MM-DD HH:mm:ss.SSS') + ' IP:' + req.ip + ' ', ep.done('data2'));
-                    D_recordhistory.bindMachineDepartment(connection, machine,
+                    D_recordhistory.insertRecord(connection, machine,
                         moment().format('YYYY-MM-DD HH:mm:ss.SSS') + ' IP:' + req.ip + ' ', ep.done('data3'));
                 }
             });

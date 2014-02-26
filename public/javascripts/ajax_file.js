@@ -106,6 +106,24 @@ function getMachineInfo(data, cb){
         }
     })
 };
+function getManageMachineInfo(data, cb){
+    $.ajax({
+        method: 'get',
+        url: './getMachinesByTypeDepartment',
+        data: data,
+        success: function(msg){
+            if (msg.success == false){
+                cb(msg.data, msg) ;
+            }
+            else{
+                cb(null, msg.data);
+            }
+        },
+        error: function(xmlHttpRequest, err){
+            cb(err.toString());
+        }
+    })
+};
 function changeMachine(data, cb){
     $.ajax({
         method: 'post',
