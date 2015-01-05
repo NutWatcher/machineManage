@@ -1,0 +1,211 @@
+<% include head.ejs %>
+
+<script>
+$(function () {
+    $('#changeMachinePost').button().on('click',function(e){
+        e.stopPropagation();
+        var departmentId = $('#selectDepartmentVal').text() ;
+        var typeId = $('#selectTypeVal').text();
+        var barcode = $('#index_barcode').val();
+        var misc = $('#changeMachine_misc').val();
+        if (barcode == ""){
+            alert("请输入正确设备条码");
+            return;
+        }
+        changeMachine({
+            "departmentId": departmentId,
+            "typeId":typeId,
+            "barcode":barcode,
+            "misc":misc
+        },function(err, data){
+            if (err){
+                $('#pInfo').text(err);
+            }
+            else{
+                $('#pInfo').text('设备' + barcode +'修改成功!');
+                var barcode = $('#index_barcode_input').val();
+                if (barcode.trim() == ""){
+                    alert("请输入正确设备条码");
+                    return;
+                }
+                getMachineInfo({"barcode":barcode},function(err, data){
+                    if (err){
+                        $('#pInfo').text(err);
+                    }
+                    else{
+                        if (data.info.length == 0){
+                            $('#pInfo').text(barcode + ' 没有此设备。');
+                        }
+                        else{
+                            $('#selectDepartmentText').text(data.info[0].department);
+                            $('#selectDepartmentVal').text(data.info[0].department_id);
+                            $('#selectTypeText').text(data.info[0].typeName);
+                            $('#selectTypeVal').text(data.info[0].typeName_id);
+                            $('#index_barcode').val(data.info[0].barCode);
+                            $('#changeMachine_misc').val(data.info[0].misc);
+
+                            $('#index_tbody').empty();
+                            var str = "";
+                            for (var i = 0; i < data.records.length ; i ++){
+                                str = "<tr>            "                                    +
+                                        "<td>"+ data.records[i].date+"</td>   "               +
+                                        "<td>"+ data.records[i].machine.department+"</td>   "+
+                                        "<td>"+ data.records[i].machine.misc+"</td>   "     +
+                                        "<td>"+ data.records[i].machine.typeName+"</td>   "+
+                                        "</tr>";
+                                $('#index_tbody').append(str);
+                            }
+                            $("#index_tbody tr:odd").addClass("tEven");
+                        }
+                    }
+                });
+            }
+        });
+    });
+    $('.addMachine_select').mySelectStyle();
+    var position = $("#selectTypeButton").position();
+    $("#tab_type_div").css({ left: position.left + 60, top: position.top + 12}).hide();
+    var position = $("#selectDepartmentButton").position();
+    $("#tab_department_div").css({ left: position.left + 60, top: position.top + 12}).hide();
+    $("#tab_department").myTabs('create', {
+        event: "mouseover",
+        heightStyle: "fill",
+        titles: [
+            {"text": "全部", "reg": "0,60"},
+            {"text": "1-3", "reg": "0,1"}
+        ],
+        remote: true,
+        url: "./getDepartment",
+        buttonClick: function (e) {
+            e.stopPropagation();
+            var val = $(this).val()
+                    , text = $(this).text();
+            $('#selectDepartmentText').text(text);
+            $('#selectDepartmentVal').text(val);
+            $('#tab_department_div').hide();
+        }
+    });
+    $("#tab_type").myTabs('create', {
+        event: "mouseover",
+        heightStyle: "fill",
+        titles: [
+            {"text": "全部", "reg": "0,60"},
+            {"text": "1-3", "reg": "0,1"}
+        ],
+        remote: true,
+        url: "./getType",
+        buttonClick: function (e) {
+            e.stopPropagation();
+            var val = $(this).val()
+                    , text = $(this).text();
+            $('#selectTypeText').text(text);
+            $('#selectTypeVal').text(val);
+            $('#tab_type_div').hide();
+        }
+    });
+    $('#selectTypeButton').on({
+        'click': function (e) {
+            e.stopPropagation();
+            if ($("#tab_department_div").css('display') != 'none') {
+                $("#tab_department_div").hide();
+            }
+            if ($("#tab_type_div").css('display') == 'none') {
+                $("#tab_type_div").show();
+            }
+            else {
+                $("#tab_type_div").hide();
+            }
+        }
+    });
+    $('#selectDepartmentButton').on({
+        'click': function (e) {
+            e.stopPropagation();
+            if ($("#tab_type_div").css('display') != 'none') {
+                $("#tab_type_div").hide();
+            }
+            if ($("#tab_department_div").css('display') == 'none') {
+                $("#tab_department_div").show();
+            }
+            else {
+                $("#tab_department_div").hide();
+            }
+        }
+    });
+});
+</script>
+<body>
+<p id="pInfo">&nbsp;</p>
+
+<div class="index_bodyDiv">
+    <div class="index_div">
+        <p class="index_lable">设备条码:</p>
+
+        <div class="ui-corner-all addmachine_data border_gray">
+            <input id="index_barcode_input" class="index_dataInput">
+            <input id="index_barcode" style="display: none">
+        </div>
+    </div>
+    <div class="index_div">
+        <div style="float: left">
+            <div class="index_div">
+                <p class="index_lable">设备类型:</p>
+
+                <div class="ui-corner-all addmachine_data border_gray">
+                    <span id="selectTypeText"
+                          style="width: 250px;overflow:hidden;float: left;line-height: 40px;padding-left:5px;font-size: 30px"></span>
+                    <span id="selectTypeVal" style="display: none"></span>
+                    <span id="selectTypeButton" class="ui-corner-right lyy-light-background addMachine_select"
+                          style="padding: 12px 0;float: right; "
+                          title="选择设备类型">
+                        <span class="ui-icon ui-icon-triangle-1-e" style="margin: 0 12px;"></span>
+                    </span>
+                </div>
+            </div>
+            <div class="index_div">
+                <p class="index_lable">部门:</p>
+
+                <div class="ui-corner-all addmachine_data border_gray">
+                    <span id="selectDepartmentText"
+                          style="width: 250px;overflow:hidden;float: left;line-height: 40px;padding-left:5px;font-size: 30px"></span>
+                    <span id="selectDepartmentVal" style="display: none"></span>
+                    <span id="selectDepartmentButton" class="ui-corner-right lyy-light-background addMachine_select"
+                          style="padding: 12px 0;float: right; "
+                          title="选择部门">
+                        <span class="ui-icon ui-icon-triangle-1-e" style="margin: 0 12px;"></span>
+                    </span>
+                </div>
+            </div>
+            <div class="index_div">
+                <p class="index_lable"></p>
+
+                <div class="index_data">
+                    <p id="changeMachinePost">上报问题单</p>
+                </div>
+            </div>
+        </div>
+        <div style="float: left;padding-left: 20px">
+            <div class="index_div">
+                <p class="index_lable" style="width: 50px">备注:</p>
+
+                <div class="ui-corner-all index_textareaDiv border_gray">
+                    <textarea id="changeMachine_misc" class="index_textareaInput"></textarea>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="index_div my_hr">
+    </div>
+</div>
+
+
+<div id="tab_type_div" style="position: absolute;left: 0px;top:0px">
+    <div id="tab_type" class="addmachine_tabs">
+    </div>
+</div>
+<div id="tab_department_div" style="position: absolute;left: 0px;top:0px">
+    <div id="tab_department" class="addmachine_tabs">
+    </div>
+</div>
+</body>
+</html>

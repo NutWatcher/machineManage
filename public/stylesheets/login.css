@@ -1,0 +1,25 @@
+.login-content-div{
+    margin: 0 auto;
+    margin-top: 100px;
+    width: 500px;
+    height: 300px;
+}
+.login-content-div-login{
+    display: block;
+    width:100px;
+    height: 22px;
+    margin-top:10px;
+    padding:4px 0;
+    border: 1px solid #cccccc;
+    border-radius: 5px;
+}
+.login-content-div-login:hover{
+    display: block;
+    width:100px;
+    height: 22px;
+    margin-top:10px;
+    padding:4px 0;
+    border: 1px solid #000000;
+    border-radius: 5px;
+    cursor: pointer;
+}

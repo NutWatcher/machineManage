@@ -96,7 +96,20 @@ exports.dataBase = {
             "    CONSTRAINT `recordhistory-type` FOREIGN KEY (`type_id`)            "+
             "        REFERENCES `machinetype` (`idmachinetype`)                     "+
             "        ON DELETE NO ACTION ON UPDATE NO ACTION                        "+
-            ");",
+            ");"+
+            " CREATE  TABLE `machinemanage`.`report` ("+
+            "`idreport` INT NOT NULL AUTO_INCREMENT ,"+
+            "`barcode_id` INT NOT NULL ,"+
+            "`department_id` INT NOT NULL ,"+
+            "`type_id` INT NOT NULL ,"+
+            "`misc` VARCHAR(255) NULL ,"+
+            "`starttime` DATETIME NOT NULL ,"+
+            "`endtime` DATETIME NULL ,"+
+            "    PRIMARY KEY (`idreport`) ,"+
+            "UNIQUE INDEX `idreport_UNIQUE` (`idreport` ASC) ,"+
+            "INDEX `recordhistory-barcode_idx` (`barcode_id` ASC) ,"+
+            "INDEX `recordhistory-department_idx` (`department_id` ASC) ,"+
+            "INDEX `recordhistory-type_idx` (`type_id` ASC) );",
         "drop" :"ff"
     }
 }

@@ -1,0 +1,37 @@
+<% include head.ejs %>
+
+<script>
+    var login =function(){
+        alert('登录');
+        $("#login-form").submit();
+
+    };
+    $(function(){
+        $('#login-input').on('keypress',function(event){
+            if(event.keyCode == "13")
+            {
+                login();
+            }
+        });
+    })
+</script>
+<body style="background-color: #ffffff;">
+<p id="pInfo">&nbsp;</p>
+<div class="login-content-div">
+    <div style="text-align: center;padding-top: 100px">
+        <div style="float: left;margin-left: 100px">
+            <span style='font:22px "Microsoft YaHei", "微软雅黑", "Microsoft JhengHei", "华文细黑", STHeiti, MingLiu'>机构号</span>
+        </div>
+        <div  style="float: left;margin-left: 10px">
+            <form id="login-form" action="/login">
+                <input name="jigouhao" id="login-input" style="line-height: 22px;height: 28px;font-size: 22px;color: red" value="330401001">
+                <a class="login-content-div-login" onclick="login();">
+                    <span style="font-size: 22px">进入</span>
+                </a>
+            </form>
+        </div>
+    </div>
+</div>
+
+</body>
+</html>
