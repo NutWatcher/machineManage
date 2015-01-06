@@ -19,6 +19,8 @@
                             $('#pInfo').text(barcode + ' 没有此设备。');
                         }
                         else{
+
+                            $('#pInfo').html("&nbsp");
                             $('#selectDepartmentText').text(data.info[0].department);
                             $('#selectDepartmentVal').text(data.info[0].department_id);
                             $('#selectTypeText').text(data.info[0].typeName);
@@ -303,24 +305,7 @@
             </tr>
             </thead>
             <tbody id="index_tbody">
-            <tr>
-                <td>时间</td>
-                <td>部门</td>
-                <td>备速度的风格的风格的风格是大法官的风格的风格浮动人如果二哥热工如果法国的风格的人的风格而二哥的风格的人工注</td>
-                <td>类型</td>
-            </tr>
-            <tr class="tEven">
-                <td>时间</td>
-                <td>部门</td>
-                <td>备注是大法官的风格是大法官是的风格的风格大概个的风格的风风格是大法官是的风格的风格大概个的风格的风风格是大法官是的风格的风格大概个的风格的风格</td>
-                <td>类型</td>
-            </tr>
-            <tr>
-                <td>时间</td>
-                <td>部门</td>
-                <td>备注</td>
-                <td>类型</td>
-            </tr>
+
             </tbody>
         </table>
     </div>
