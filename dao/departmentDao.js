@@ -33,3 +33,14 @@ exports.insert = function (departmentName, logInfo, cb) {
         cb(err, rows);
     });
 };
+
+exports.getDepartmentById = function (id, logInfo, cb) {
+    var strSql = "SELECT iddepartment id , departmentname FROM department where iddepartment = '" + id + "';"
+    baseDb.queryDb(strSql, logInfo, function(err, rows) {
+        if (err) {
+            cb(err);
+            return;
+        }
+        cb(err, rows);
+    });
+};

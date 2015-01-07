@@ -13,6 +13,7 @@ var view = require('./controllers/view')
 module.exports = function (app) {
     // home page
     app.get('/', view.login);
+    app.get('/login', view.userpage);
     //app.get('/', view.index);
     app.get('/report', view.report);
     app.get('/index', view.index);
@@ -30,6 +31,7 @@ module.exports = function (app) {
     app.get('/getMachinesByTypeDepartment', c_machine.getMachinesByTypeDepartment);
 
     app.get('/getDepartment', c_department.getInfoAll);
+    app.post('/getDepartmentById', c_department.getDepartmentById);
     app.post('/addDepartment', c_department.addDepartment);
 
     app.get('/getType', c_type.getInfoAll);

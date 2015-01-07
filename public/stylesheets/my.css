@@ -134,6 +134,11 @@ table {
     width: 600px;
     z-index: 100;
 }
+.login_addmachine_tabs{
+    height: 500px;
+    width: 300px;
+    z-index: 100;
+}
 .addType_label, .addDepartment_label{
     font-size: 20px;
     float: left;

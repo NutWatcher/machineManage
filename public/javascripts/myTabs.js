@@ -49,13 +49,14 @@ jQuery.fn.myTabs = function(  method, opt ){
             reg = opts.titles[i].reg ;
             r_min = parseInt(reg.split(',')[0]) ;
             r_max = parseInt(reg.split(',')[1]) ;
-            str = "<div id='" +opts.id+ "-" +i+ "'>" ;
+            str = "<div id='" +opts.id+ "-" +i+ "' style='position:relative;padding:10px;'>" ;
+            str += "<div style='height: 420px;overflow: auto;position:relative;'>";
             for ( var j = 0 ; j < opts.data.length ; j ++ ){
                 if ( opts.data[j].reg >= r_min && opts.data[j].reg <= r_max ){
                     str += "<button class='myTabs_button' value='"+ opts.data[j].id +"'>" + opts.data[j].name + "</button>" ;
                 }
             }
-            str += "</div>" ;
+            str += "</div></div>" ;
             $(obj).append(str);
         }
         var opts_temp = {};

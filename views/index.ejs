@@ -6,7 +6,8 @@
             if (event.keyCode == 13){
                 //alert(13);
                 var barcode = $('#index_barcode_input').val();
-                if (barcode.trim() == ""){
+
+                if ($.trim(barcode) == ""){
                     alert("请输入正确设备条码");
                     return;
                 }
@@ -65,7 +66,7 @@
                     $('#pInfo').text(err);
                 }
                 else{
-                    $('#pInfo').text('设备' + barcode +'修改成功!');
+                    $('#pInfo').text('设备' + $('#index_barcode_input').val() +'修改成功!');
                     var barcode = $('#index_barcode_input').val();
                     if (barcode.trim() == ""){
                         alert("请输入正确设备条码");
@@ -239,9 +240,10 @@
                 <p class="index_lable">设备类型:</p>
 
                 <div class="ui-corner-all addmachine_data border_gray">
+                    <span id="selectTypeVal" style="display: none"></span>
                     <span id="selectTypeText"
                           style="width: 250px;overflow:hidden;float: left;line-height: 40px;padding-left:5px;font-size: 30px"></span>
-                    <span id="selectTypeVal" style="display: none"></span>
+
                     <span id="selectTypeButton" class="ui-corner-right lyy-light-background addMachine_select"
                           style="padding: 12px 0;float: right; "
                           title="选择设备类型">
@@ -258,9 +260,10 @@
                 <p class="index_lable">部门:</p>
 
                 <div class="ui-corner-all addmachine_data border_gray">
+                    <span id="selectDepartmentVal" style="display: none"></span>
                     <span id="selectDepartmentText"
                           style="width: 250px;overflow:hidden;float: left;line-height: 40px;padding-left:5px;font-size: 30px"></span>
-                    <span id="selectDepartmentVal" style="display: none"></span>
+
                     <span id="selectDepartmentButton" class="ui-corner-right lyy-light-background addMachine_select"
                           style="padding: 12px 0;float: right; "
                           title="选择部门">

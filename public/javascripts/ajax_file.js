@@ -52,6 +52,24 @@ function addDepartment(data, cb){
         }
     })
 };
+function getDepartmentById(data, cb){
+    $.ajax({
+        method: 'POST',
+        url: '/getDepartmentById',
+        data: data,
+        success: function(msg){
+            if (msg.success == false){
+                cb(msg.data, msg) ;
+            }
+            else{
+                cb(null, msg.data[0]);
+            }
+        },
+        error: function(xmlHttpRequest, err){
+            cb(err.toString());
+        }
+    })
+};
 function addType(data, cb){
     $.ajax({
         method: 'POST',
@@ -91,7 +109,7 @@ function addMachine(data, cb){
 function getMachineInfo(data, cb){
     $.ajax({
         method: 'get',
-        url: './getMachineInfoByBarcode',
+        url: '/getMachineInfoByBarcode',
         data: data,
         success: function(msg){
             if (msg.success == false){

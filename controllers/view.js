@@ -8,6 +8,11 @@
 exports.login = function(req, res){
     res.render('login', { title: '嘉兴邮政设备管理系统' });
 };
+exports.userpage = function(req, res){
+    var a = req;
+    var jigouhao = req.query.jigouhao;
+    res.render('report', { title: '嘉兴邮政设备管理系统', department_id: jigouhao });
+};
 exports.index = function(req, res){
     res.render('index', { title: '设备管理' });
 };

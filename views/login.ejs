@@ -7,6 +7,52 @@
 
     };
     $(function(){
+        $('#login-content-div-login').on({
+            'mouseenter': function (e) {
+                e.stopPropagation();
+                $(this).addClass("login-content-div-login-hover");
+            },
+            'mouseleave': function (e) {
+                e.stopPropagation();
+                $(this).removeClass("login-content-div-login-hover");
+            }
+        });
+        $("#tab_department").myTabs('create', {
+            event: "mouseover",
+            heightStyle: "fill",
+            titles: [
+                {"text": "全部", "reg": "0,60"},
+                {"text": "1-3", "reg": "0,1"}
+            ],
+            remote: true,
+            url: "./getDepartment",
+            buttonClick: function (e) {
+                e.stopPropagation();
+                var val = $(this).val()
+                        , text = $(this).text();
+                $('#selectDepartmentText').text(text);
+                $('#selectDepartmentVal').text(val);
+                $('#login-input').val(val);
+                $('#tab_department_div').hide();
+            }
+        });
+        $('.addMachine_select').mySelectStyle();
+        var position = $("#selectDepartmentButton").position();
+        $("#tab_department_div").css({ left: position.left + 60, top: position.top + 12}).hide();
+        $('#selectDepartmentButton').on({
+            'click': function (e) {
+                e.stopPropagation();
+                if ($("#tab_type_div").css('display') != 'none') {
+                    $("#tab_type_div").hide();
+                }
+                if ($("#tab_department_div").css('display') == 'none') {
+                    $("#tab_department_div").show();
+                }
+                else {
+                    $("#tab_department_div").hide();
+                }
+            }
+        });
         $('#login-input').on('keypress',function(event){
             if(event.keyCode == "13")
             {
@@ -19,17 +65,32 @@
 <p id="pInfo">&nbsp;</p>
 <div class="login-content-div">
     <div style="text-align: center;padding-top: 100px">
-        <div style="float: left;margin-left: 100px">
-            <span style='font:22px "Microsoft YaHei", "微软雅黑", "Microsoft JhengHei", "华文细黑", STHeiti, MingLiu'>机构号</span>
-        </div>
-        <div  style="float: left;margin-left: 10px">
             <form id="login-form" action="/login">
-                <input name="jigouhao" id="login-input" style="line-height: 22px;height: 28px;font-size: 22px;color: red" value="330401001">
-                <a class="login-content-div-login" onclick="login();">
+                <div class="index_div">
+                    <div style="float: left;margin-left: 10px">
+                        <span style='line-height:40px;font:22px "Microsoft YaHei", "微软雅黑", "Microsoft JhengHei", "华文细黑", STHeiti, MingLiu'>部门:</span>
+                    </div>
+                    <div  style="float: left;margin-left: 10px">
+                    <div class="ui-corner-all addmachine_data border_gray">
+                        <span id="selectDepartmentVal" style="display: none"></span>
+                    <span id="selectDepartmentText"
+                          style="width: 250px;overflow:hidden;float: left;line-height: 40px;height: 40px;padding-left:5px;font-size: 30px"></span>
+                    <span id="selectDepartmentButton" class="ui-corner-right lyy-light-background addMachine_select"
+                          style="padding: 12px 0;float: right; "
+                          title="选择部门">
+                        <span class="ui-icon ui-icon-triangle-1-e" style="margin: 0 12px;"></span>
+                    </span>
+                    </div>
+                <input name="jigouhao" id="login-input" style="display: none" value="330401001">
+                <a class="login-content-div-login" id="login-content-div-login" onclick="login();">
                     <span style="font-size: 22px">进入</span>
                 </a>
+                </div></div>
             </form>
-        </div>
+    </div>
+</div>
+<div id="tab_department_div" style="position: absolute;left: 0px;top:0px">
+    <div id="tab_department" class="login_addmachine_tabs">
     </div>
 </div>
 
